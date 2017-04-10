@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
-const selenium = require('selenium-standalone');
 const webdriver = require('webdriverio');
+const wdio = require('wdio');
 const fs = require('fs');
 const meow = require('meow');
 const ora = require('ora');
 const chalk = require('chalk');
+
+const spinner = ora('Loading Profile!').start();
 
 const cli = meow(`
 	Usage
@@ -21,10 +23,10 @@ const cli = meow(`
 	default: {chrome: true},
 });
 
-const spinner = ora('Loading Profile!').start();
 if(cli.flags && !['chrome', 'firefox'].includes(Object.keys(cli.flags)[0])) {
 	return spinner.fail(chalk.red('Invalid browser!'));
 }
+
 const name = cli.input[0];
 if (!name) {
 	return spinner.fail(chalk.red('No name entered!'));
@@ -35,6 +37,13 @@ const options = {
 		browserName: Object.keys(cli.flags)[0],
 	},
 };
+
+wdio.initSelenium({}, (err) => {
+	if(err) {
+		return spinner.fail(chalk.red('Selenium is not run!'));
+	}
+	wdio.run({}, function() {});
+});
 
 const browser = webdriver
 	.remote(options)

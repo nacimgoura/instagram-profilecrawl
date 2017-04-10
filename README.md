@@ -14,7 +14,8 @@ Note : this is a fork of
 [instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
 created by [timgrossmann](https://github.com/timgrossmann).
 I'm not a python developer but I was very interested in this project so I realized
- the same thing but in nodeJS, bringing some improvements.
+the same thing but in nodeJS, bringing some improvements.
+I chose to use also selenium because it's something cool.
 
 #### Getting started
 Just do:
