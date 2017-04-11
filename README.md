@@ -28,6 +28,7 @@ Usage
 	Options
 	  --chrome      use chrome
 	  --firefox     use firefox
+	  --phantomjs   use phantomjs
 
 	Examples
 	  $ instagram-profile-crawl nacim_goura
@@ -35,10 +36,13 @@ Usage
 The information will be saved in a JSON-File same profile {username}.json.
 
 Important : Even if it is possible to use different browser, I advise
-to use chrome because I realized this application on chrome and I did
-not take the time to test on others.
+to use chrome because I realized this application on chrome.
+I tested on firefox, there is a problem that occurs when moving the mouse.
+And on phantomjs, it does not manage to recover the number of posts which 
+blocks for the rest of the program.
+I am currently working on solving these problems, but I accept any help.
 
-Structure of data : 
+Exemple of data : 
 ```
 {
   "alias": "nacim_goura",

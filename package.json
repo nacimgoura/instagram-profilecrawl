@@ -1,6 +1,6 @@
 {
-  "name": "crawlprofilenode",
-  "version": "0.0.1",
+  "name": "instagram-profilecrawl",
+  "version": "1.0.1",
   "description": "Automation Script for crawling information from ones instagram profile",
   "main": "index.js",
   "scripts": {

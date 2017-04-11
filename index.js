@@ -106,8 +106,9 @@ function extractUrlPostProfile() {
 	let urls = getValue('._nljxa a', 'attribute', 'href', []);
 	if (urls.length > 0 && this.dataProfile.numberOfPosts > 12) {
 		loadButton();
-		while (Number(this.dataProfile.numberOfPosts) !== urls.length) {
-			browser.scroll('body', 0, 15000).pause(1000);
+		while (this.dataProfile.numberOfPosts !== urls.length) {
+			browser.scroll('body', 0, 15000);
+			browser.pause(1000);
 			urls = getValue('._nljxa a', 'attribute', 'href', []);
 		}
 	}
