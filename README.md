@@ -22,20 +22,31 @@ I chose to use also selenium because it's something cool.
 #### Getting started
 Just do :
 ```bash
-npm install --g instagram-profilecrawl
+npm install -g instagram-profilecrawl
 
 Usage
-	$ instagram-profilecrawl <name>
+	$ instagram-profilecrawl <name> <name> <name>
 	  
 	Options
 	  --chrome      use chrome
 	  --firefox     use firefox
 	  --phantomjs   use phantomjs
+	  --opera       use opera
+	  --safari      use safari
+	  --edge        use edge
+	  --ie          use internet explorer
 
 	Examples
 	  $ instagram-profilecrawl nacimgoura
 ```
-The information will be saved in a JSON-File same profile {username}.json.
+If you encounter an error on windows, do :
+
+```
+npm install -g windows-build-tools
+npm install -g instagram-profilecrawl
+```
+
+**It is possible to crawl several accounts following!**
 
 **Important** : Even if it is possible to use different browser, I advise
 to use chrome because I realized this application on chrome.
@@ -44,6 +55,7 @@ I encountered a problem with phantomjs, it does not manage to recover
 the number of posts which blocks for the rest of the program.
 I am currently working on solving these problems, but I accept any help.
 
+The information will be saved in a JSON-File same profile {username}.json.
 Exemple of data : 
 ```
 {

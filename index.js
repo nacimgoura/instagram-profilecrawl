@@ -10,18 +10,18 @@ const includes = require('lodash.includes');
 const cli = require('./cli');
 
 // init spinner
-const spinnerLoading = ora('Loading Profile!').start();
+const spinnerLoading = ora('Init script!').start();
 const spinnerCrawl = ora('Begin of treatment!');
 
 // test if browser exist
 const browserName = Object.keys(cli.flags)[0];
-if (cli.flags && !includes(['chrome', 'firefox', 'phantomjs'], browserName)) {
+if (cli.flags && !includes(['chrome', 'firefox', 'phantomjs', 'ie', 'edge', 'safari', 'opera'], browserName)) {
 	return spinnerLoading.fail(chalk.red('Invalid browser!'));
 }
 
 // test if name is entered
-const profileName = cli.input[0];
-if (!profileName) {
+const listProfileName = cli.input;
+if (!listProfileName) {
 	return spinnerLoading.fail(chalk.red('No name entered!'));
 }
 
@@ -44,8 +44,16 @@ if (browserName === 'phantomjs') {
 	});
 }
 
+// crawl profile for each name
 function initBrowser(phantomJS) {
-	wdio.run(initCrawlProfile, () => {
+	wdio.run(initCrawlProfile, (err) => {
+		if(err) {
+			spinnerCrawl.fail(chalk.red(err.message));
+		}
+		while(listProfileName.length) {
+			browser.pause(1000);
+			loadProfile();
+		}
 		browser.end();
 		if (phantomJS) {
 			phantomJS.kill();
@@ -57,13 +65,19 @@ function initBrowser(phantomJS) {
 // init crawl of profile
 function initCrawlProfile() {
 	browser.init();
-	browser.url(`https://instagram.com/${profileName}`);
+	loadProfile();
+}
+
+// load profile
+function loadProfile() {
+	this.profileName = listProfileName.shift();
+	browser.url(`https://instagram.com/${this.profileName}`);
 
 	if (browser.isExisting('div.error-container')) {
-		return failCrawl('This profile does not exist!');
+		return spinnerCrawl.fail(chalk.red(`Profile ${this.profileName} doesn't exist!`));
 	}
 
-	spinnerLoading.succeed(chalk.green('Profile successfully loaded!'));
+	spinnerLoading.succeed(chalk.green(`Profile successfully loaded for ${this.profileName}!`));
 	spinnerCrawl.start();
 
 	this.dataProfile = {
@@ -157,13 +171,8 @@ function browsePosts() {
 function createFile() {
 	fs.writeFile(`profile ${this.dataProfile.alias}.json`, JSON.stringify(this.dataProfile, null, 2), 'utf-8', (err) => {
 		if (err) {
-			return failCrawl(err.message);
+			return spinnerCrawl.fail(chalk.red(`Error : ${err.message}`));
 		}
 		return spinnerCrawl.succeed(chalk.green('File created with success!'));
 	});
-}
-
-// display error message
-function failCrawl(message) {
-	return spinnerCrawl.fail(chalk.red(`Error : ${message}`));
 }
