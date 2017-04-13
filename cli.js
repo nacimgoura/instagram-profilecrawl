@@ -11,7 +11,7 @@ module.exports = meow(`
 	  --phantomjs   use phantomjs
 
 	Examples
-	  $ instagram-profile-crawl nacim_goura
+	  $ instagram-profile-crawl nacimgoura
 `, {
 	default: { chrome: true },
 });

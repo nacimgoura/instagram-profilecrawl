@@ -6,19 +6,21 @@
 Automation Script for crawling information from ones instagram profile.  
 Like e.g. the number of posts, followers, and the tags of the the posts
 
+[![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
 [![Build Status](https://travis-ci.org/nacimgoura/instagram-profilecrawl.svg?branch=master)](https://travis-ci.org/nacimgoura/instagram-profilecrawl)
 [![built with NodeJS](https://img.shields.io/badge/Built%20with-nodejs-green.svg)](https://www.nodejs.org/)
 [![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-red.svg)](https://github.com/SeleniumHQ/selenium)
 
-Note : this is a fork of 
-[instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
+**Note** : I was inspired by [instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
 created by [timgrossmann](https://github.com/timgrossmann).
-I'm not a python developer but I was very interested in this project so I realized
+I'm not a Python developer but I was very interested in this project so I realized
 the same thing but in nodeJS, bringing some improvements.
 I chose to use also selenium because it's something cool.
 
+**Currently not compatible with nodeJS < 5**
+
 #### Getting started
-Just do:
+Just do :
 ```bash
 npm install --g instagram-profilecrawl
 
@@ -31,48 +33,59 @@ Usage
 	  --phantomjs   use phantomjs
 
 	Examples
-	  $ instagram-profile-crawl nacim_goura
+	  $ instagram-profile-crawl nacimgoura
 ```
 The information will be saved in a JSON-File same profile {username}.json.
 
-Important : Even if it is possible to use different browser, I advise
+**Important** : Even if it is possible to use different browser, I advise
 to use chrome because I realized this application on chrome.
-I tested on firefox, there is a problem that occurs when moving the mouse.
-And on phantomjs, it does not manage to recover the number of posts which 
-blocks for the rest of the program.
+I tested on firefox and it works well too.
+I encountered a problem with phantomjs, it does not manage to recover
+the number of posts which blocks for the rest of the program.
 I am currently working on solving these problems, but I accept any help.
 
 Exemple of data : 
 ```
 {
-  "alias": "nacim_goura",
-  "username": "Nacim",
-  "description": "French student",
-  "urlImgProfile": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-19/s150x150/17662950_1416155488436522_4443366366061264896_a.jpg",
-  "numberOfPosts": "21",
-  "numberFollowers": "391",
-  "numberFollowing": "407",
-  "private": false,
-  "posts": [
-        {
-          "url": "https://www.instagram.com/p/BShIo0IAg00/?taken-by=nacim_goura",
-          "urlImage": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/c135.0.810.810/17818002_126533407886446_8602338629349539840_n.jpg",
-          "numberLikes": "44",
-          "numberComments": "1",
-          "isVideo": false,
-          "description": "Souvenir d'été 🌞",
-          "tags": [
-            "#landscape",
-            "#nofilter",
-            "#sun",
-            "#summer",
-            "#heat",
-            "#nostalgia",
-            "#morocco",
-            "#home"
-          ]
-        },
+  {
+    "alias": "nacimgoura",
+    "username": "Nacim",
+    "description": "French student 🇫🇷 «La vie est un conte de fée qui perd ses pouvoirs magique lorsque nous grandissons.»",
+    "urlImgProfile": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-19/s150x150/17662950_1416155488436522_4443366366061264896_a.jpg",
+    "website": "nacimgoura.fr",
+    "numberOfPosts": 22,
+    "numberFollowers": 390,
+    "numberFollowing": 410,
+    "private": false,
+    "posts": [
+      {
+        "url": "https://www.instagram.com/p/BSy5fM-gkTB/?taken-by=nacimgoura",
+        "urlImage": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-15/e35/17882589_765690586924244_1094628417464172544_n.jpg",
+        "isVideo": false,
+        "localization": "Besançon, France",
+        "numberLikes": 21,
+        "numberComments": 1,
+        "description": "Piano time 🎹",
+        "tags": [
+          "#piano",
+          "#music",
+          "#enattendantletrain",
+          "#blackandwhite",
+          "#artist"
+        ],
+        "mentions": []
+      }
         ...
   ]      
 }
 ```
+
+| Browser  | Compatibility |
+| ------------- | ------------- |
+| Chrome  | 100%  |
+| Firefox  | 80% (The new page doesn't appear after clicking but it retrieves the data correctly  |
+| PhantomJS  | 30% (unable to get number of posts and number of likes) |
+| Edge  | Not tested  |
+| Safari  | Not tested  |
+| Opera  | Not tested  |
+

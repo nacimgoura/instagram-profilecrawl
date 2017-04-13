@@ -15,13 +15,13 @@ const spinnerCrawl = ora('Begin of treatment!');
 // test if browser exist
 const browserName = Object.keys(cli.flags)[0];
 if (cli.flags && !['chrome', 'firefox', 'phantomjs'].includes(browserName)) {
-	spinnerLoading.fail(chalk.red('Invalid browser!'));
+	return spinnerLoading.fail(chalk.red('Invalid browser!'));
 }
 
 // test if name is entered
 const profileName = cli.input[0];
 if (!profileName) {
-	spinnerLoading.fail(chalk.red('No name entered!'));
+	return spinnerLoading.fail(chalk.red('No name entered!'));
 }
 
 // create browser
@@ -70,9 +70,10 @@ function initCrawlProfile() {
 		username: getValue('h2._79dar'),
 		description: getValue('._bugdy span'),
 		urlImgProfile: getValue('._o0ohn img', 'attribute', 'src'),
-		numberOfPosts: Number(getValue('ul._9o0bc li:first-child ._bkw5z')) || 0,
-		numberFollowers: Number(getValue('ul._9o0bc li:nth-child(2) ._bkw5z')) || 0,
-		numberFollowing: Number(getValue('ul._9o0bc li:nth-child(3) ._bkw5z')) || 0,
+		website: getValue('a._56pjv'),
+		numberOfPosts: Number(getValue('ul._9o0bc li:first-child ._bkw5z').replace(',', '')) || 0,
+		numberFollowers: Number(getValue('ul._9o0bc li:nth-child(2) ._bkw5z').replace(',', '')) || 0,
+		numberFollowing: Number(getValue('ul._9o0bc li:nth-child(3) ._bkw5z').replace(',', '')) || 0,
 		private: browser.isVisible('h2._glq0k'),
 		posts: [],
 	};
@@ -103,22 +104,29 @@ function getValue(element, type, typeAttribute) {
 
 function browsePosts() {
 	browser.click('._myci9:first-child a:first-child');
-	while (this.dataProfile.posts.length < this.dataProfile.numberOfPosts) {
+	const numberPost = this.dataProfile.numberOfPosts;
+	while (this.dataProfile.posts.length < numberPost) {
 		while (!getValue('._n3cp9 ._jjzlb img', 'attribute', 'src') && !browser.isVisible('video')) {
 			browser.pause(300);
 		}
 		const post = {
 			url: browser.getUrl(),
 			localization: getValue('a._kul9p', 'attribute', 'title'),
-			numberLikes: Number(getValue('span._tf9x3 span')) || 0,
 			isVideo: browser.isVisible('video'),
 		};
 		if (post.isVideo) {
 			post.urlMedia = getValue('video', 'attribute', 'src');
-			post.numberViewers = Number(getValue('span._9jphp span')) || 0;
 		} else {
 			post.urlMedia = getValue('._n3cp9 ._jjzlb img', 'attribute', 'src');
-			post.numberLikes = Number(getValue('span._tf9x3 span')) || 0;
+		}
+		post.numberLikes = getValue('span._tf9x3 span');
+		post.numberViewers = getValue('span._9jphp span');
+		if(post.numberLikes) {
+			post.numberLikes = Number(post.numberLikes.replace(',', ''));
+			delete post.numberViewers;
+		}else if(post.numberViewers) {
+			post.numberViewers = Number(post.numberViewers.replace(',', ''));
+			delete post.numberLikes;
 		}
 		if (typeof getValue('._mo9iw li') === 'object') {
 			post.numberComments = Number(getValue('._mo9iw li').length) - 1;
@@ -126,12 +134,12 @@ function browsePosts() {
 			post.numberComments = 0;
 		}
 		const description = getValue('ul._mo9iw li:first-child span');
-		post.description = description.replace(/([@#])[a-z\u00E0-\u00FC-_]*/g, '').trim();
+		post.description = description.toLowerCase().replace(/([@#])[a-z\u00E0-\u00FC-_\d]*/g, '').trim();
 		post.tags = description.split(' ').filter(n => /^#/.exec(n)) || [];
 		post.mentions = description.split(' ').filter(n => /^@/.exec(n)) || [];
 		this.dataProfile.posts.push(post);
-		spinnerCrawl.text = `Advancement of crawl : ${this.dataProfile.posts.length}/${this.dataProfile.numberOfPosts}`;
-		if (this.dataProfile.posts.length < this.dataProfile.numberOfPosts) {
+		spinnerCrawl.text = `Advancement of crawl : ${this.dataProfile.posts.length}/${numberPost}`;
+		if (this.dataProfile.posts.length < numberPost) {
 			browser.click('a.coreSpriteRightPaginationArrow');
 			while (browser.getUrl() === post.url) {
 				browser.pause(300);

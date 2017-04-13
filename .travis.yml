@@ -4,6 +4,6 @@ node_js:
   - "7"
 before_install:
   - sudo apt-get update && sudo apt-get install oracle-java8-installer
+  - npm install -g instagram-profilecrawl
 script:
-  - sudo npm install -g instagram-profilecrawl
-  - instagram-profilecrawl nacim_goura --chrome
+  - instagram-profilecrawl nacimgoura --chrome
