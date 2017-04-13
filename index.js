@@ -1,55 +1,54 @@
 #!/usr/bin/env node
 
-const selenium = require('selenium-standalone');
-const wdio = require('wdio');
-const phantomjs = require('phantomjs-prebuilt');
 const fs = require('fs');
+const wdio = require('wdio');
+const selenium = require('selenium-standalone');
+const phantomjs = require('phantomjs-prebuilt');
 const ora = require('ora');
 const chalk = require('chalk');
 const cli = require('./cli');
 
 // init spinner
-const spinner = ora('Loading Profile!').start();
+const spinnerLoading = ora('Loading Profile!').start();
+const spinnerCrawl = ora('Begin of treatment!');
 
 // test if browser exist
 const browserName = Object.keys(cli.flags)[0];
-if(cli.flags && !['chrome', 'firefox', 'phantomjs'].includes(browserName)) {
-	return spinner.fail(chalk.red('Invalid browser!'));
+if (cli.flags && !['chrome', 'firefox', 'phantomjs'].includes(browserName)) {
+	spinnerLoading.fail(chalk.red('Invalid browser!'));
 }
 
 // test if name is entered
-const nameProfile = cli.input[0];
-if (!nameProfile) {
-	return spinner.fail(chalk.red('No name entered!'));
+const profileName = cli.input[0];
+if (!profileName) {
+	spinnerLoading.fail(chalk.red('No name entered!'));
 }
 
 // create browser
 const options = {
 	desiredCapabilities: {
-		browserName: browserName
+		browserName,
 	},
 };
 const browser = wdio.getBrowser(options);
 
-if(browserName === 'phantomjs') {
-	phantomjs.run('--webdriver=4444').then(program => {
-		initBrowser();
-		program.kill();
-	});
-}else {
+if (browserName === 'phantomjs') {
+	phantomjs.run('--webdriver=4444').then(program => initBrowser(program));
+} else {
 	selenium.start((err) => {
-		if(err) {
-			return spinner.fail(chalk.red('Unable to start selenium server!'));
-		}else {
-			initBrowser();
+		if (err) {
+			return spinnerLoading.fail(chalk.red('Unable to start selenium server!'));
 		}
+		return initBrowser();
 	});
 }
 
-// init browser
-function initBrowser() {
+function initBrowser(phantomJS) {
 	wdio.run(initCrawlProfile, () => {
 		browser.end();
+		if (phantomJS) {
+			phantomJS.kill();
+		}
 		process.exit();
 	});
 }
@@ -57,9 +56,14 @@ function initBrowser() {
 // init crawl of profile
 function initCrawlProfile() {
 	browser.init();
-	browser.url(`https://instagram.com/${nameProfile}`);
+	browser.url(`https://instagram.com/${profileName}`);
 
-	spinner.text = 'Start of treatment!';
+	if (browser.isExisting('div.error-container')) {
+		return failCrawl('This profile does not exist!');
+	}
+
+	spinnerLoading.succeed(chalk.green('Profile successfully loaded!'));
+	spinnerCrawl.start();
 
 	this.dataProfile = {
 		alias: getValue('h1'),
@@ -73,19 +77,14 @@ function initCrawlProfile() {
 		posts: [],
 	};
 
-	if (browser.isExisting('div.error-container')) {
-		return failCrawl('This profile does not exist!');
+	if (this.dataProfile.private === true) {
+		return createFile();
 	}
-
-	if(this.dataProfile.private === true) {
-		createFile();
-	}else {
-		extractUrlPostProfile();
-	}
+	return browsePosts();
 }
 
 // catch error
-function getValue(element, type = 'text', typeAttribute = '', defaultValue = '') {
+function getValue(element, type, typeAttribute) {
 	const isExisting = browser.isExisting(element);
 
 	if (isExisting) {
@@ -98,79 +97,62 @@ function getValue(element, type = 'text', typeAttribute = '', defaultValue = '')
 				return browser.getText(element);
 		}
 	}
-	return defaultValue;
+
+	return null;
 }
 
-// extract all url in profile
-function extractUrlPostProfile() {
-	let urls = getValue('._nljxa a', 'attribute', 'href', []);
-	if (urls.length > 0 && this.dataProfile.numberOfPosts > 12) {
-		loadButton();
-		while (this.dataProfile.numberOfPosts !== urls.length) {
-			browser.scroll('body', 0, 15000);
-			browser.pause(1000);
-			urls = getValue('._nljxa a', 'attribute', 'href', []);
+function browsePosts() {
+	browser.click('._myci9:first-child a:first-child');
+	while (this.dataProfile.posts.length < this.dataProfile.numberOfPosts) {
+		while (!getValue('._n3cp9 ._jjzlb img', 'attribute', 'src') && !browser.isVisible('video')) {
+			browser.pause(300);
 		}
-	}
-	moveToObject(1, 1);
-}
-
-// move cursor in each post (recursive function)
-function moveToObject(i, j) {
-
-	spinner.text = `${this.dataProfile.posts.length} posts processed!`;
-	if (this.dataProfile.posts.length === this.dataProfile.numberOfPosts) {
-		return createFile();
-	}
-
-	try {
-		const item = `._nljxa ._myci9:nth-child(${i}) a:nth-child(${j})`;
-		browser.moveToObject(item);
-
 		const post = {
-			url: getValue(item, 'attribute', 'href'),
-			urlImage: getValue(`${item} img`, 'attribute', 'src'),
-			numberLikes: getValue(`${item} li._sjq6j span:first-child`, 'text', '', 0),
-			numberComments: getValue(`${item} li._qq2if span:first-child`, 'text', '', 0),
-			isVideo: browser.isVisible(`${item} ._qihym`),
+			url: browser.getUrl(),
+			localization: getValue('a._kul9p', 'attribute', 'title'),
+			numberLikes: Number(getValue('span._tf9x3 span')) || 0,
+			isVideo: browser.isVisible('video'),
 		};
-		const description = getValue(`${item} img`, 'attribute', 'alt');
-		post.description = description.replace(/#[a-z\u00E0-\u00FC]*/g, '').trim();
-		post.tags = description.split(' ').filter(n => /^#/.exec(n));
-		this.dataProfile.posts.push(post);
-
-		if (j === 3) {
-			j = 1;
-			i++;
+		if (post.isVideo) {
+			post.urlMedia = getValue('video', 'attribute', 'src');
+			post.numberViewers = Number(getValue('span._9jphp span')) || 0;
 		} else {
-			j++;
+			post.urlMedia = getValue('._n3cp9 ._jjzlb img', 'attribute', 'src');
+			post.numberLikes = Number(getValue('span._tf9x3 span')) || 0;
 		}
-
-		moveToObject(i, j);
-	}catch (error) {
-		failCrawl(error);
+		if (typeof getValue('._mo9iw li') === 'object') {
+			post.numberComments = Number(getValue('._mo9iw li').length) - 1;
+		} else {
+			post.numberComments = 0;
+		}
+		const description = getValue('ul._mo9iw li:first-child span');
+		post.description = description.replace(/([@#])[a-z\u00E0-\u00FC-_]*/g, '').trim();
+		post.tags = description.split(' ').filter(n => /^#/.exec(n)) || [];
+		post.mentions = description.split(' ').filter(n => /^@/.exec(n)) || [];
+		this.dataProfile.posts.push(post);
+		spinnerCrawl.text = `Advancement of crawl : ${this.dataProfile.posts.length}/${this.dataProfile.numberOfPosts}`;
+		if (this.dataProfile.posts.length < this.dataProfile.numberOfPosts) {
+			browser.click('a.coreSpriteRightPaginationArrow');
+			while (browser.getUrl() === post.url) {
+				browser.pause(300);
+			}
+		}
 	}
-}
 
-// click in load button
-function loadButton() {
-	const isVisible = browser.isExisting('a._8imhp');
-	if (isVisible) {
-		browser.click('a._8imhp');
-	}
+	return createFile();
 }
 
 // create file of user profile
 function createFile() {
 	fs.writeFile(`profile ${this.dataProfile.alias}.json`, JSON.stringify(this.dataProfile, null, 2), 'utf-8', (err) => {
 		if (err) {
-			failCrawl(err.message);
+			return failCrawl(err.message);
 		}
-		spinner.succeed(chalk.green('File created with success!'));
+		return spinnerCrawl.succeed(chalk.green('File created with success!'));
 	});
 }
 
 // display error message
 function failCrawl(message) {
-	return spinner.fail(chalk.red(`Error : ${message}`));
+	return spinnerCrawl.fail(chalk.red(`Error : ${message}`));
 }
