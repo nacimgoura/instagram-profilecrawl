@@ -52,7 +52,7 @@ Exemple of data :
     "username": "Nacim",
     "description": "French student 🇫🇷 «La vie est un conte de fée qui perd ses pouvoirs magique lorsque nous grandissons.»",
     "urlImgProfile": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-19/s150x150/17662950_1416155488436522_4443366366061264896_a.jpg",
-    "website": "nacimgoura.fr",
+    "urlProfile": "https://www.instagram.com/nacimgoura/",``
     "numberOfPosts": 22,
     "numberFollowers": 390,
     "numberFollowing": 410,

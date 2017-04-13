@@ -1,9 +1,8 @@
 language: node_js
 node_js:
   - "6"
-  - "7"
 before_install:
   - sudo apt-get update && sudo apt-get install oracle-java8-installer
   - npm install -g instagram-profilecrawl
 script:
-  - instagram-profilecrawl nacimgoura --chrome
+  - instagram-profilecrawl nacim --chrome

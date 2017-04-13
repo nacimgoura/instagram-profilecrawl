@@ -69,6 +69,7 @@ function initCrawlProfile() {
 		alias: getValue('h1'),
 		username: getValue('h2._79dar'),
 		description: getValue('._bugdy span'),
+		urlProfile: browser.getUrl(),
 		urlImgProfile: getValue('._o0ohn img', 'attribute', 'src'),
 		website: getValue('a._56pjv'),
 		numberOfPosts: Number(getValue('ul._9o0bc li:first-child ._bkw5z').replace(',', '')) || 0,
