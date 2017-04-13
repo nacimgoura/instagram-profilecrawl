@@ -3,7 +3,7 @@ const meow = require('meow');
 
 module.exports = meow(`
 	Usage
-	  $ instagram-profile-crawl <name>
+	  $ instagram-profilecrawl <name>
 	  
 	Options
 	  --chrome      use chrome
@@ -11,7 +11,7 @@ module.exports = meow(`
 	  --phantomjs   use phantomjs
 
 	Examples
-	  $ instagram-profile-crawl nacimgoura
+	  $ instagram-profilecrawl nacimgoura
 `, {
 	default: { chrome: true },
 });

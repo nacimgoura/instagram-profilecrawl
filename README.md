@@ -17,7 +17,7 @@ I'm not a Python developer but I was very interested in this project so I realiz
 the same thing but in nodeJS, bringing some improvements.
 I chose to use also selenium because it's something cool.
 
-**Currently not compatible with nodeJS < 5**
+**Currently, This project is compatible with nodejs > 4**
 
 #### Getting started
 Just do :
@@ -25,7 +25,7 @@ Just do :
 npm install --g instagram-profilecrawl
 
 Usage
-	$ instagram-profile-crawl <name>
+	$ instagram-profilecrawl <name>
 	  
 	Options
 	  --chrome      use chrome
@@ -33,7 +33,7 @@ Usage
 	  --phantomjs   use phantomjs
 
 	Examples
-	  $ instagram-profile-crawl nacimgoura
+	  $ instagram-profilecrawl nacimgoura
 ```
 The information will be saved in a JSON-File same profile {username}.json.
 
@@ -50,22 +50,24 @@ Exemple of data :
   {
     "alias": "nacimgoura",
     "username": "Nacim",
-    "description": "French student 🇫🇷 «La vie est un conte de fée qui perd ses pouvoirs magique lorsque nous grandissons.»",
+    "descriptionProfile": "French student 🇫🇷 «La vie est un conte de fée qui perd ses pouvoirs magique lorsque nous grandissons.»",
+    "urlProfile": "https://www.instagram.com/nacimgoura/",
     "urlImgProfile": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-19/s150x150/17662950_1416155488436522_4443366366061264896_a.jpg",
-    "urlProfile": "https://www.instagram.com/nacimgoura/",``
-    "numberOfPosts": 22,
+    "website": "nacimgoura.xyz",
+    "numberPosts": 22,
     "numberFollowers": 390,
     "numberFollowing": 410,
     "private": false,
     "posts": [
       {
         "url": "https://www.instagram.com/p/BSy5fM-gkTB/?taken-by=nacimgoura",
-        "urlImage": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-15/e35/17882589_765690586924244_1094628417464172544_n.jpg",
-        "isVideo": false,
         "localization": "Besançon, France",
-        "numberLikes": 21,
+        "date": "Apr 12, 2017",
+        "isVideo": false,
+        "urlMedia": "https://scontent-frt3-1.cdninstagram.com/t51.2885-15/e35/17882589_765690586924244_1094628417464172544_n.jpg",
+        "numberLikes": 23,
         "numberComments": 1,
-        "description": "Piano time 🎹",
+        "description": "piano time 🎹",
         "tags": [
           "#piano",
           "#music",
@@ -83,8 +85,8 @@ Exemple of data :
 | Browser  | Compatibility |
 | ------------- | ------------- |
 | Chrome  | 100%  |
-| Firefox  | 80% (The new page doesn't appear after clicking but it retrieves the data correctly  |
-| PhantomJS  | 30% (unable to get number of posts and number of likes) |
+| Firefox  | 80% (The new page doesn't appear after clicking but it retrieves the data correctly)  |
+| PhantomJS  | 30% (unable to get number of posts and number of likes so fail) |
 | Edge  | Not tested  |
 | Safari  | Not tested  |
 | Opera  | Not tested  |
