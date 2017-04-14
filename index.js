@@ -21,7 +21,7 @@ if (cli.flags && !includes(['chrome', 'firefox', 'phantomjs', 'ie', 'edge', 'saf
 
 // test if name is entered
 const listProfileName = cli.input;
-if (!listProfileName) {
+if (listProfileName.length === 0) {
 	return spinnerLoading.fail(chalk.red('No name entered!'));
 }
 
@@ -154,6 +154,19 @@ function browsePosts() {
 		post.description = description.toLowerCase().replace(/([@#])[a-z\u00E0-\u00FC-_\d]*/g, '').trim();
 		post.tags = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^#/.exec(n)) || [];
 		post.mentions = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^@/.exec(n)) || [];
+		var mentionsImage = getValue('a._ofpcv', 'href');
+		if (mentionsImage) {
+			if (typeof mentionsImage === 'object') {
+				mentionsImage = mentionsImage.join(',')
+					.replace(/https:\/\/www.instagram.com\//g, '@')
+					.replace(/\//g, '')
+					.split(',');
+				post.mentions = post.mentions.concat(mentionsImage);
+			}else {
+				mentionsImage = mentionsImage.replace(/https:\/\/www.instagram.com\//g, '@').replace(/\//g, '');
+				post.mentions.push(mentionsImage);
+			}
+		}
 		this.dataProfile.posts.push(post);
 		spinnerCrawl.text = `Advancement of crawl : ${this.dataProfile.posts.length}/${numberPost}`;
 		if (this.dataProfile.posts.length < numberPost) {

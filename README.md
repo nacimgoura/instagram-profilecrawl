@@ -2,22 +2,22 @@
 
 # Instagram-Profilecrawl
 
-## Quickly crawl the information (e.g. followers, tags etc...) of an instagram profile. No login required!
-Automation Script for crawling information from ones instagram profile.  
-Like e.g. the number of posts, followers, and the tags of the the posts
-
 [![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
 [![Build Status](https://travis-ci.org/nacimgoura/instagram-profilecrawl.svg?branch=master)](https://travis-ci.org/nacimgoura/instagram-profilecrawl)
 [![built with NodeJS](https://img.shields.io/badge/Built%20with-nodejs-green.svg)](https://www.nodejs.org/)
 [![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-red.svg)](https://github.com/SeleniumHQ/selenium)
 
-**Note** : I was inspired by [instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
+## Quickly crawl the information (e.g. followers, tags etc...) of an instagram profile. No login required!
+Automation Script for crawling information from ones instagram profile.  
+Like e.g. the number of posts, followers, and the tags of the the posts
+
+**Currently, This project is compatible with nodejS > 4**
+
+**Note** : I forked [instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
 created by [timgrossmann](https://github.com/timgrossmann).
 I'm not a Python developer but I was very interested in this project so I realized
 the same thing but in nodeJS, bringing some improvements.
 I chose to use also selenium because it's something cool.
-
-**Currently, This project is compatible with nodejs > 4**
 
 #### Getting started
 Just do :
@@ -39,6 +39,8 @@ Usage
 	Examples
 	  $ instagram-profilecrawl nacimgoura
 ```
+**It is possible to crawl several accounts following!**
+
 If you encounter an error on windows, do :
 
 ```
@@ -46,12 +48,10 @@ npm install -g windows-build-tools
 npm install -g instagram-profilecrawl
 ```
 
-**It is possible to crawl several accounts following!**
-
 **Important** : Even if it is possible to use different browser, I advise
 to use chrome because I realized this application on chrome.
 I tested on firefox and it works well too.
-I encountered a problem with phantomjs, it does not manage to recover
+I encountered a problem with phantomjs, it doesn't manage to recover
 the number of posts which blocks for the rest of the program.
 I am currently working on solving these problems, but I accept any help.
 
