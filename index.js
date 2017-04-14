@@ -87,9 +87,9 @@ function loadProfile() {
 		urlProfile: browser.getUrl(),
 		urlImgProfile: getValue('._o0ohn img', 'src'),
 		website: getValue('a._56pjv'),
-		numberPosts: Number(getValue('ul._9o0bc li:first-child ._bkw5z').replace(',', '')) || 0,
-		numberFollowers: Number(getValue('ul._9o0bc li:nth-child(2) ._bkw5z').replace(',', '')) || 0,
-		numberFollowing: Number(getValue('ul._9o0bc li:nth-child(3) ._bkw5z').replace(',', '')) || 0,
+		numberPosts: cleanNumber(getValue('ul._9o0bc li:first-child ._bkw5z')),
+		numberFollowers: cleanNumber(getValue('ul._9o0bc li:nth-child(2) ._bkw5z')),
+		numberFollowing: cleanNumber(getValue('ul._9o0bc li:nth-child(3) ._bkw5z')),
 		private: browser.isVisible('h2._glq0k'),
 		posts: [],
 	};
@@ -140,13 +140,13 @@ function browsePosts() {
 
 		// get image
 		if (browser.isVisible('span._9jphp span')) {
-			post.numberLikes = getValue('span._9jphp span');
+			post.numberLikes = cleanNumber(getValue('span._9jphp span'));
 		}else if (browser.isVisible('span._tf9x3')) {
-			post.numberLikes = Number(getValue('span._tf9x3').replace(/[a-z]/g, ''));
+			post.numberLikes = cleanNumber(getValue('span._tf9x3'));
 		}else if (browser.isVisible('._iuf51 a')) {
-			post.numberLikes = getValue('._iuf51 a');
+			post.numberLikes = cleanNumber(getValue('._iuf51 a'));
 			if (typeof post.numberLikes === 'object') {
-				post.numberLikes = getValue('._iuf51 a').length;
+				post.numberLikes = cleanNumber(getValue('._iuf51 a').length);
 			} else {
 				post.numberLikes = 1;
 			}
@@ -154,7 +154,7 @@ function browsePosts() {
 
 		// get number view for video
 		if(browser.isVisible('span._9jphp span')) {
-			post.numberViewers = Number(getValue('span._9jphp span').replace(',', ''));
+			post.numberViewers = Number(getValue('span._9jphp span').replace(/,/g, ''));
 			delete post.numberLikes;
 		}
 
@@ -201,6 +201,20 @@ function browsePosts() {
 	}
 
 	return createFile();
+}
+
+function cleanNumber(number) {
+	var numberClean = Number(number.replace(/[a-z]/g, '').replace(/[.|,]/g, '').trim());
+	if (/\dm/.test(number)) {
+		numberClean = Number(''+numberClean + '00000');
+	} else if(/\dk/.test(number)) {
+		console.log('whaaaaaaaaaaaaaaaaat');
+		numberClean = Number(''+numberClean + '00');
+	}
+	if(_.isNaN(numberClean)) {
+		return 0;
+	}
+	return numberClean;
 }
 
 // create file of user profile
