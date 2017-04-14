@@ -94,9 +94,25 @@ function loadProfile() {
 		posts: [],
 	};
 
+	this.url = [];
+
 	if (this.dataProfile.private === true) {
 		return createFile();
 	}
+
+	return getAllPost();
+}
+
+function getAllPost() {
+	if (browser.isExisting('a._8imhp')) {
+		browser.click('a._8imhp');
+	}
+	while (this.url.length < this.dataProfile.numberPosts) {
+		this.url = getValue('._nljxa a', 'href');
+		browser.moveToObject('span._es4h6');
+		browser.pause(200);
+	}
+
 	return browsePosts();
 }
 
@@ -114,13 +130,13 @@ function getValue(element, attribute) {
 	return null;
 }
 
+// browse each post
 function browsePosts() {
-	browser.click('._myci9:first-child a:first-child');
 	const numberPost = this.dataProfile.numberPosts;
 	while (this.dataProfile.posts.length < numberPost) {
-		while (!getValue('._n3cp9 ._jjzlb img', 'src') && !browser.isVisible('video')) {
-			browser.pause(200);
-		}
+
+		// access url
+		browser.url(this.url.shift());
 		var post = {
 			url: browser.getUrl(),
 			localization: getValue('a._kul9p', 'title'),
@@ -132,7 +148,7 @@ function browsePosts() {
 		if (post.isVideo) {
 			post.urlMedia = getValue('video', 'src');
 		} else {
-			post.urlMedia = getValue('._n3cp9 ._jjzlb img', 'src');
+			post.urlMedia = getValue('img._icyx7', 'src');
 		}
 
 		post.numberLikes = 0;
@@ -158,6 +174,7 @@ function browsePosts() {
 			delete post.numberLikes;
 		}
 
+		// get number comment
 		var comments = getValue('._mo9iw li');
 		if (_.isArray(comments)) {
 			post.numberComments = Number(comments.length) - 1;
@@ -167,6 +184,7 @@ function browsePosts() {
 			post.numberComments = 0;
 		}
 
+		// get description
 		var description = getValue('li._nk46a h1 span');
 		if (description) {
 			post.description = description.trim();
@@ -177,6 +195,8 @@ function browsePosts() {
 		}else {
 			post.description = '';
 		}
+
+		// get mentions in image
 		var mentionsImage = getValue('a._ofpcv', 'href');
 		if (mentionsImage) {
 			if (_.isArray(mentionsImage)) {
@@ -192,23 +212,17 @@ function browsePosts() {
 		}
 		this.dataProfile.posts.push(post);
 		spinnerCrawl.text = `Advancement of crawl : ${this.dataProfile.posts.length}/${numberPost}`;
-		if (this.dataProfile.posts.length < numberPost) {
-			browser.click('a.coreSpriteRightPaginationArrow');
-			while (browser.getUrl() === post.url) {
-				browser.pause(200);
-			}
-		}
 	}
 
 	return createFile();
 }
 
+// clean number
 function cleanNumber(number) {
 	var numberClean = Number(number.replace(/[a-z]/g, '').replace(/[.|,]/g, '').trim());
 	if (/\dm/.test(number)) {
 		numberClean = Number(''+numberClean + '00000');
 	} else if(/\dk/.test(number)) {
-		console.log('whaaaaaaaaaaaaaaaaat');
 		numberClean = Number(''+numberClean + '00');
 	}
 	if(_.isNaN(numberClean)) {
