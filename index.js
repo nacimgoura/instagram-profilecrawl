@@ -6,7 +6,7 @@ const selenium = require('selenium-standalone');
 const phantomjs = require('phantomjs-prebuilt');
 const ora = require('ora');
 const chalk = require('chalk');
-const includes = require('lodash.includes');
+const _ = require('lodash');
 const cli = require('./cli');
 
 // init spinner
@@ -15,7 +15,7 @@ const spinnerCrawl = ora('Begin of treatment!');
 
 // test if browser exist
 const browserName = Object.keys(cli.flags)[0];
-if (cli.flags && !includes(['chrome', 'firefox', 'phantomjs', 'ie', 'edge', 'safari', 'opera'], browserName)) {
+if (cli.flags && !_.includes(['chrome', 'firefox', 'phantomjs', 'ie', 'edge', 'safari', 'opera'], browserName)) {
 	return spinnerLoading.fail(chalk.red('Invalid browser!'));
 }
 
@@ -127,36 +127,59 @@ function browsePosts() {
 			date: getValue('time', 'title'),
 			isVideo: browser.isVisible('video'),
 		};
+
+		// get different url if post is video or image
 		if (post.isVideo) {
 			post.urlMedia = getValue('video', 'src');
 		} else {
 			post.urlMedia = getValue('._n3cp9 ._jjzlb img', 'src');
 		}
-		post.numberViewers = getValue('span._9jphp span');
-		post.numberLikes = getValue('span._tf9x3 span');
-		if(post.numberLikes) {
-			if(browser.isVisible('span._tf9x3 span')) {
-				post.numberLikes = Number(post.numberLikes.replace(',', ''));
-			}else {
+
+		post.numberLikes = 0;
+		post.numberViewers = 0;
+
+		// get image
+		if (browser.isVisible('span._9jphp span')) {
+			post.numberLikes = getValue('span._9jphp span');
+		}else if (browser.isVisible('span._tf9x3')) {
+			post.numberLikes = Number(getValue('span._tf9x3').replace(/[a-z]/g, ''));
+		}else if (browser.isVisible('._iuf51 a')) {
+			post.numberLikes = getValue('._iuf51 a');
+			if (typeof post.numberLikes === 'object') {
 				post.numberLikes = getValue('._iuf51 a').length;
+			} else {
+				post.numberLikes = 1;
 			}
-			delete post.numberViewers;
-		}else if(post.numberViewers) {
-			post.numberViewers = Number(post.numberViewers.replace(',', ''));
+		}
+
+		// get number view for video
+		if(browser.isVisible('span._9jphp span')) {
+			post.numberViewers = Number(getValue('span._9jphp span').replace(',', ''));
 			delete post.numberLikes;
 		}
-		if (typeof getValue('._mo9iw li') === 'object') {
-			post.numberComments = Number(getValue('._mo9iw li').length) - 1;
-		} else {
+
+		var comments = getValue('._mo9iw li');
+		if (_.isArray(comments)) {
+			post.numberComments = Number(comments.length) - 1;
+		} else if(comments && _.isString(comments)) {
+			post.numberComments = 1;
+		}else {
 			post.numberComments = 0;
 		}
-		var description = getValue('ul._mo9iw li:first-child span');
-		post.description = description.toLowerCase().replace(/([@#])[a-z\u00E0-\u00FC-_\d]*/g, '').trim();
-		post.tags = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^#/.exec(n)) || [];
-		post.mentions = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^@/.exec(n)) || [];
+
+		var description = getValue('li._nk46a h1 span');
+		if (description) {
+			post.description = description.trim();
+			post.tags = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^#/.exec(n)) || [];
+			post.mentions = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^@/.exec(n)) || [];
+		}else if (getValue('li a._4zhc5', 'title') === this.dataProfile.alias) {
+			post.description = getValue('li._nk46a span');
+		}else {
+			post.description = '';
+		}
 		var mentionsImage = getValue('a._ofpcv', 'href');
 		if (mentionsImage) {
-			if (typeof mentionsImage === 'object') {
+			if (_.isArray(mentionsImage)) {
 				mentionsImage = mentionsImage.join(',')
 					.replace(/https:\/\/www.instagram.com\//g, '@')
 					.replace(/\//g, '')

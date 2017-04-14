@@ -78,6 +78,7 @@ Exemple of data :
         "isVideo": false,
         "urlMedia": "https://scontent-frt3-1.cdninstagram.com/t51.2885-15/e35/17882589_765690586924244_1094628417464172544_n.jpg",
         "numberLikes": 23,
+        "numberViewers": 0,
         "numberComments": 1,
         "description": "piano time 🎹",
         "tags": [
