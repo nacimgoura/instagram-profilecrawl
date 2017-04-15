@@ -1,7 +1,6 @@
 <img src="https://s3-eu-central-1.amazonaws.com/centaur-wp/designweek/prod/content/uploads/2016/05/11170038/Instagram_Logo-1002x1003.jpg" width="200" align="right">
 
-# Instagram-Profilecrawl
-
+## Instagram-Profilecrawl 
 [![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
 [![Build Status](https://travis-ci.org/nacimgoura/instagram-profilecrawl.svg?branch=master)](https://travis-ci.org/nacimgoura/instagram-profilecrawl)
 [![built with NodeJS](https://img.shields.io/badge/Built%20with-nodejs-green.svg)](https://www.nodejs.org/)
@@ -11,7 +10,7 @@
 Automation Script for crawling information from ones instagram profile, 
 like the number of posts, followers, tags and mentions of the posts.
 
-**Currently, This project is compatible with nodejS > 4**
+**Currently, This project is compatible with nodeJS > 4**
 
 **Note** : This is an original idea of [timgrossmann](https://github.com/timgrossmann)
 with the project [instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
@@ -19,17 +18,20 @@ realized in Python.
 I'm not a Python developer but I was very interested in this project so I realized
 the same thing but in nodeJS, bringing some improvements.
 
-#### Getting started
-Just do :
+## Install
 ```
 npm install -g instagram-profilecrawl
+```
 
+## Usage
+```
 Usage
 	$ instagram-profilecrawl <name> <name>
 
 	Examples
 	  $ instagram-profilecrawl nacimgoura
 ```
+
 **It is possible to crawl several accounts following!**
 
 **The movements of the user on the browser can influence the behavior of the script.**

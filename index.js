@@ -111,7 +111,7 @@ function extractUrlPostProfile() {
 
 	function moveToObject() {
 		if (self.dataProfile.posts.length === self.dataProfile.numberPosts) {
-			spinnerCrawl.succeed('End of the first step!');
+			spinnerCrawl.succeed(chalk.green('End of the first step!'));
 			return browsePosts();
 		}
 		const item = `._nljxa ._myci9:nth-child(${i}) a:nth-child(${j})`;
@@ -183,6 +183,8 @@ function browsePosts() {
 		if (browser.isVisible('span._9jphp span') && post.numberViews > 0) {
 			post.numberViews = cleanNumber(getValue('span._9jphp span'));
 			delete post.numberLikes;
+		} else {
+			delete post.numberViews;
 		}
 
 		// get mentions in image
