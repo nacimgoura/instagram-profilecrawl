@@ -1,6 +1,6 @@
 {
   "name": "instagram-profilecrawl",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Automation Script for crawling information from ones instagram profile",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,6 @@
     "lodash": "^4.17.4",
     "meow": "^3.7.0",
     "ora": "^1.2.0",
-    "phantomjs-prebuilt": "^2.1.14",
     "selenium-standalone": "^6.2.0",
     "wdio": "^0.3.3"
   },

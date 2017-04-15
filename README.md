@@ -8,8 +8,8 @@
 [![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-red.svg)](https://github.com/SeleniumHQ/selenium)
 
 ## Quickly crawl the information (e.g. followers, tags etc...) of an instagram profile. No login required!
-Automation Script for crawling information from ones instagram profile.  
-Like e.g. the number of posts, followers, and the tags of the the posts
+Automation Script for crawling information from ones instagram profile, 
+like the number of posts, followers, tags and mentions of the the posts
 
 **Currently, This project is compatible with nodejS > 4**
 
@@ -21,25 +21,18 @@ I chose to use also selenium because it's something cool.
 
 #### Getting started
 Just do :
-```bash
+```
 npm install -g instagram-profilecrawl
 
 Usage
-	$ instagram-profilecrawl <name> <name> <name>
-	  
-	Options
-	  --chrome      use chrome
-	  --firefox     use firefox
-	  --phantomjs   use phantomjs
-	  --opera       use opera
-	  --safari      use safari
-	  --edge        use edge
-	  --ie          use internet explorer
+	$ instagram-profilecrawl <name> <name>
 
 	Examples
 	  $ instagram-profilecrawl nacimgoura
 ```
 **It is possible to crawl several accounts following!**
+**
+The movements of the user on the browser can influence the behavior of the script.**
 
 If you encounter an error on windows, do :
 
@@ -47,13 +40,6 @@ If you encounter an error on windows, do :
 npm install -g windows-build-tools
 npm install -g instagram-profilecrawl
 ```
-
-**Important** : Even if it is possible to use different browser, I advise
-to use chrome because I realized this application on chrome.
-I tested on firefox and it works well too.
-I encountered a problem with phantomjs, it doesn't manage to recover
-the number of posts which blocks for the rest of the program.
-I am currently working on solving these problems, but I accept any help.
 
 The information will be saved in a JSON-File same profile {username}.json.
 Exemple of data : 
@@ -73,8 +59,6 @@ Exemple of data :
     "posts": [
       {
         "url": "https://www.instagram.com/p/BSy5fM-gkTB/?taken-by=nacimgoura",
-        "localization": "Besançon, France",
-        "date": "Apr 12, 2017",
         "isVideo": false,
         "urlMedia": "https://scontent-frt3-1.cdninstagram.com/t51.2885-15/e35/17882589_765690586924244_1094628417464172544_n.jpg",
         "numberLikes": 23,
@@ -94,13 +78,3 @@ Exemple of data :
   ]      
 }
 ```
-
-| Browser  | Compatibility |
-| ------------- | ------------- |
-| Chrome  | 100%  |
-| Firefox  | 80% (The new page doesn't appear after clicking but it retrieves the data correctly)  |
-| PhantomJS  | 30% (unable to get number of posts and number of likes so fail) |
-| Edge  | Not tested  |
-| Safari  | Not tested  |
-| Opera  | Not tested  |
-

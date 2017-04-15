@@ -5,7 +5,6 @@
     ],
     "rules": {
         "indent": ["error", "tab", { "SwitchCase": 1 }],
-        "no-tabs": "off",
-        "no-await-in-loop": "off"
+        "no-tabs": "off"
     }
 }
