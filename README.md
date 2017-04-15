@@ -7,17 +7,17 @@
 [![built with NodeJS](https://img.shields.io/badge/Built%20with-nodejs-green.svg)](https://www.nodejs.org/)
 [![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-red.svg)](https://github.com/SeleniumHQ/selenium)
 
-## Quickly crawl the information (e.g. followers, tags etc...) of an instagram profile. No login required!
+## Quickly crawl the information (e.g. followers, tags, mentions, date, etc...) of an instagram profile. No login required!
 Automation Script for crawling information from ones instagram profile, 
-like the number of posts, followers, tags and mentions of the the posts
+like the number of posts, followers, tags and mentions of the posts.
 
 **Currently, This project is compatible with nodejS > 4**
 
-**Note** : I forked [instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
-created by [timgrossmann](https://github.com/timgrossmann).
+**Note** : This is an original idea of [timgrossmann](https://github.com/timgrossmann)
+with the project [instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
+realized in Python.
 I'm not a Python developer but I was very interested in this project so I realized
 the same thing but in nodeJS, bringing some improvements.
-I chose to use also selenium because it's something cool.
 
 #### Getting started
 Just do :
@@ -31,8 +31,8 @@ Usage
 	  $ instagram-profilecrawl nacimgoura
 ```
 **It is possible to crawl several accounts following!**
-**
-The movements of the user on the browser can influence the behavior of the script.**
+
+**The movements of the user on the browser can influence the behavior of the script.**
 
 If you encounter an error on windows, do :
 
