@@ -10,16 +10,21 @@
 Automation Script for crawling information from ones instagram profile, 
 like the number of posts, followers, tags and mentions of the posts.
 
-**Currently, This project is compatible with nodeJS > 4**
-
 **Note** : This is an original idea of [timgrossmann](https://github.com/timgrossmann)
 with the project [instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
 realized in Python.
 I'm not a Python developer but I was very interested in this project so I realized
 the same thing but in nodeJS, bringing some improvements.
+**The movements of the user on the browser can influence the behavior of the script.**
 
 ## Install
 ```
+npm install -g instagram-profilecrawl
+```
+If you encounter an error on windows, do :
+
+```
+npm install -g windows-build-tools
 npm install -g instagram-profilecrawl
 ```
 
@@ -32,19 +37,15 @@ Usage
 	  $ instagram-profilecrawl nacimgoura
 ```
 
-**It is possible to crawl several accounts following!**
+## Functionality
+ - crawl the number of followers, followings and posts
+ - It's possible to crawl several accounts following
+ - crawl each post with number of likes and comments
+ - crawl date, localization, description, tags and mention
+ - work with all type of media
+ - support multiple image
 
-**The movements of the user on the browser can influence the behavior of the script.**
-
-If you encounter an error on windows, do :
-
-```
-npm install -g windows-build-tools
-npm install -g instagram-profilecrawl
-```
-
-The information will be saved in a JSON-File same profile {username}.json.
-Exemple of data : 
+## Example 
 ```
 {
   {
@@ -62,9 +63,9 @@ Exemple of data :
       {
         "url": "https://www.instagram.com/p/BSy5fM-gkTB/?taken-by=nacimgoura",
         "isVideo": false,
+        "multipleImage": false,
         "urlMedia": "https://scontent-frt3-1.cdninstagram.com/t51.2885-15/e35/17882589_765690586924244_1094628417464172544_n.jpg",
         "numberLikes": 23,
-        "numberViewers": 0,
         "numberComments": 1,
         "description": "piano time 🎹",
         "tags": [

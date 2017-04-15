@@ -15,7 +15,8 @@ const spinnerCrawl = ora('Begin of the first step!');
 // test if name is entered
 const listProfileName = cli.input;
 if (listProfileName.length === 0) {
-	return spinnerLoading.fail(chalk.red('No name entered!'));
+	spinnerLoading.fail(chalk.red('No name entered!'));
+	process.exit();
 }
 
 // create browser
@@ -86,6 +87,7 @@ function loadProfile() {
 	}
 
 	if (browser.isExisting('a._8imhp')) {
+		browser.pause(200);
 		browser.click('a._8imhp');
 	}
 
@@ -95,34 +97,32 @@ function loadProfile() {
 // get all url in profile
 function extractUrlPostProfile() {
 	const self = this;
-	if (browser.isExisting('a._8imhp')) {
-		browser.click('a._8imhp');
-	}
-	this.urls = getValue('._nljxa a', 'href');
-	while (this.urls.length < this.dataProfile.numberPosts) {
-		this.urls = getValue('._nljxa a', 'href');
-		browser.moveToObject('span._es4h6');
-		browser.pause(200);
-		spinnerCrawl.text = 'Get all url in profile!';
-	}
-
 	var i = 1;
 	var j = 1;
 
+	if (browser.isExisting('a._8imhp')) {
+		browser.click('a._8imhp');
+	}
+
 	function moveToObject() {
 		if (self.dataProfile.posts.length === self.dataProfile.numberPosts) {
+			this.urls = getValue('._nljxa a', 'href');
 			spinnerCrawl.succeed(chalk.green('End of the first step!'));
 			return browsePosts();
 		}
 		const item = `._nljxa ._myci9:nth-child(${i}) a:nth-child(${j})`;
 		browser.moveToObject(item);
+		while (_.isNull(getValue(`${item} img`, 'src'))) {
+			browser.pause(100);
+		}
 		var post = {
 			url: getValue(item, 'href'),
 			urlImage: getValue(`${item} img`, 'src'),
 			numberLikes: cleanNumber(getValue(`${item} li._sjq6j span:first-child`)),
 			numberViews: cleanNumber(getValue(`${item} li._9ym92 span:first-child`)),
 			numberComments: cleanNumber(getValue(`${item} li._qq2if span:first-child`)),
-			isVideo: browser.isVisible(`${item} .coreSpriteVideoIconLarge`),
+			isVideo: browser.isVisible(`${item} span.coreSpriteVideoIconLarge`),
+			multipleImage: browser.isVisible(`${item} span.coreSpriteSidecarIconLarge`),
 			tags: [],
 			mentions: [],
 		};
@@ -149,6 +149,7 @@ function extractUrlPostProfile() {
 		return moveToObject();
 	}
 
+	browser.pause(1000);
 	browser.moveToObject('img._iv4d5');
 	moveToObject();
 }
@@ -160,7 +161,6 @@ function browsePosts() {
 	const numberPost = this.dataProfile.numberPosts;
 	var number = 0;
 	while (this.urls.length > 0) {
-
 		// access url
 		browser.url(this.urls.shift());
 		var post = _.find(this.dataProfile.posts, {
@@ -174,7 +174,32 @@ function browsePosts() {
 			post.urlVideo = getValue('video', 'src');
 		}
 
-		// get image
+		// get multiple image if exist
+		if (post.multipleImage) {
+			post.urlImage = [post.urlImage];
+			while (browser.isExisting('a.coreSpriteRightChevron')) {
+				browser.click('a.coreSpriteRightChevron');
+				var image = getValue('img._icyx7', 'src');
+				var video = getValue('video', 'src');
+				while (_.isNull(image) && _.isNull(video)) {
+					image = getValue('img._icyx7', 'src');
+					video = getValue('video', 'src');
+					browser.pause(100);
+				}
+				if (browser.isVisible('video')) {
+					if (post.urlVideo) {
+						post.urlVideo = [post.urlVideo];
+					} else {
+						post.urlVideo = [];
+					}
+					post.urlVideo.push(video);
+				} else {
+					post.urlImage.push(image);
+				}
+			}
+		}
+
+		// get precise number likes
 		if (browser.isVisible('span._tf9x3') && post.numberLikes > 11) {
 			post.numberLikes = cleanNumber(getValue('span._tf9x3'));
 		}
