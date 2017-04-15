@@ -128,7 +128,7 @@ function extractUrlPostProfile() {
 		};
 
 		const description = getValue(`${item} img`, 'alt');
-		if (description) {
+		if (description && _.isString(description)) {
 			post.description = description.trim();
 			post.tags = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^#/.exec(n)) || [];
 			post.mentions = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^@/.exec(n)) || [];
@@ -200,7 +200,7 @@ function browsePosts() {
 		}
 
 		// get precise number likes
-		if (browser.isVisible('span._tf9x3') && post.numberLikes > 11) {
+		if ((browser.isVisible('span._tf9x3') && post.numberLikes > 11) || post.numberLikes !== 0) {
 			post.numberLikes = cleanNumber(getValue('span._tf9x3'));
 		}
 

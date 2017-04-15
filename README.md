@@ -1,4 +1,4 @@
-<img src="https://s3-eu-central-1.amazonaws.com/centaur-wp/designweek/prod/content/uploads/2016/05/11170038/Instagram_Logo-1002x1003.jpg" width="200" align="right">
+<img src="https://s3-eu-central-1.amazonaws.com/centaur-wp/designweek/prod/content/uploads/2016/05/11170038/Instagram_Logo-1002x1003.jpg" width="250" align="right">
 
 ## Instagram-Profilecrawl 
 [![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
@@ -7,7 +7,7 @@
 [![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-red.svg)](https://github.com/SeleniumHQ/selenium)
 
 ## Quickly crawl the information (e.g. followers, tags, mentions, date, etc...) of an instagram profile. No login required!
-Automation Script for crawling information from ones instagram profile, 
+Automation Script for crawling information from multiple instagram profile, 
 like the number of posts, followers, tags and mentions of the posts.
 
 **Note** : This is an original idea of [timgrossmann](https://github.com/timgrossmann)
@@ -15,7 +15,17 @@ with the project [instagram-profilecrawl](https://github.com/timgrossmann/instag
 realized in Python.
 I'm not a Python developer but I was very interested in this project so I realized
 the same thing but in nodeJS, bringing some improvements.
-**The movements of the user on the browser can influence the behavior of the script.**
+
+## Functionality
+ - crawl the number of followers, followings and posts
+ - It's possible to crawl several accounts following
+ - crawl each post with number of likes and comments
+ - crawl date, localization, description, tags and mention
+ - work with all type of media
+ - support multiple image
+ 
+ **The movements of the user on the browser can influence the behavior of the script. 
+ Don't move the mouse in the browser.**
 
 ## Install
 ```
@@ -37,15 +47,10 @@ Usage
 	  $ instagram-profilecrawl nacimgoura
 ```
 
-## Functionality
- - crawl the number of followers, followings and posts
- - It's possible to crawl several accounts following
- - crawl each post with number of likes and comments
- - crawl date, localization, description, tags and mention
- - work with all type of media
- - support multiple image
-
 ## Example 
+You can find complete examples in the example folder.
+
+Structure of data : 
 ```
 {
   {
