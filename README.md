@@ -1,6 +1,6 @@
-<img src="http://diylogodesigns.com/blog/wp-content/uploads/2016/05/instagram-Logo-PNG-Transparent-Background-download.png" width="200" align="right">
+<img src="http://diylogodesigns.com/blog/wp-content/uploads/2016/05/instagram-Logo-PNG-Transparent-Background-download.png" width="150" align="right">
 
-## Instagram-Profilecrawl 
+# Instagram-Profilecrawl 
 [![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
 [![Build Status](https://travis-ci.org/nacimgoura/instagram-profilecrawl.svg?branch=master)](https://travis-ci.org/nacimgoura/instagram-profilecrawl)
 [![built with NodeJS](https://img.shields.io/badge/Built%20with-nodejs-green.svg)](https://www.nodejs.org/)
@@ -24,6 +24,7 @@ the same thing but in nodeJS, bringing some improvements.
  - crawl date, localization, description, tags and mention
  - work with all type of media
  - support multiple image
+ - work with different language
  
  **The movements of the user on the browser can influence the behavior of the script. 
  Don't move the mouse in the browser.**
@@ -89,3 +90,6 @@ Structure of data :
   ]      
 }
 ```
+
+## License 
+MIT © [Nacim Goura](https://nacimgoura.xyz)

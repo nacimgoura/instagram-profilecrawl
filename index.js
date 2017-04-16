@@ -112,14 +112,18 @@ function extractUrlPostProfile() {
 		}
 		const item = `._nljxa ._myci9:nth-child(${i}) a:nth-child(${j})`;
 		browser.moveToObject(item);
-		while (_.isNull(getValue(`${item} li._qq2if span:first-child`)) && _.isNull(getValue(`${item} li._sjq6j span:first-child`)) && _.isNull(getValue(`${item} li._9ym92 span:first-child`))) {
+		var numberLikes = getValue(`${item} li._sjq6j span:first-child`);
+		var numberViews = getValue(`${item} li._9ym92 span:first-child`);
+		while (_.isNull(numberLikes) && _.isNull(numberViews)) {
 			browser.pause(100);
+			numberLikes = getValue(`${item} li._sjq6j span:first-child`);
+			numberViews = getValue(`${item} li._qq2if span:first-child`);
 		}
 		var post = {
 			url: getValue(item, 'href'),
 			urlImage: getValue(`${item} img`, 'src'),
-			numberLikes: cleanNumber(getValue(`${item} li._sjq6j span:first-child`)),
-			numberViews: cleanNumber(getValue(`${item} li._9ym92 span:first-child`)),
+			numberLikes: cleanNumber(numberLikes),
+			numberViews: cleanNumber(numberViews),
 			numberComments: cleanNumber(getValue(`${item} li._qq2if span:first-child`)),
 			isVideo: browser.isVisible(`${item} span.coreSpriteVideoIconLarge`),
 			multipleImage: browser.isVisible(`${item} span.coreSpriteSidecarIconLarge`),
@@ -183,9 +187,9 @@ function browsePosts() {
 				var image = getValue('img._icyx7', 'src');
 				var video = getValue('video', 'src');
 				while (_.isNull(image) && _.isNull(video)) {
+					browser.pause(100);
 					image = getValue('img._icyx7', 'src');
 					video = getValue('video', 'src');
-					browser.pause(100);
 				}
 				if (browser.isVisible('video')) {
 					if (post.urlVideo) {
@@ -252,7 +256,7 @@ function getValue(element, attribute) {
 // clean number
 function cleanNumber(number) {
 	if (number) {
-		var numberClean = Number(number.replace(/[a-z]/g, '').replace(/[.|,]/g, '').trim());
+		var numberClean = Number(number.replace(/[a-z.,\s]/g, '').trim());
 		if (/\dm/.test(number)) {
 			numberClean = Number(`${numberClean}00000`);
 		} else if (/\dk/.test(number)) {
