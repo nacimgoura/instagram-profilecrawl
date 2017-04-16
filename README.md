@@ -1,4 +1,4 @@
-<img src="http://diylogodesigns.com/blog/wp-content/uploads/2016/05/instagram-Logo-PNG-Transparent-Background-download.png" width="150" align="right">
+<img src="http://diylogodesigns.com/blog/wp-content/uploads/2016/05/instagram-Logo-PNG-Transparent-Background-download.png" width="140" align="right">
 
 # Instagram-Profilecrawl 
 [![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
@@ -25,6 +25,8 @@ the same thing but in nodeJS, bringing some improvements.
  - work with all type of media
  - support multiple image
  - work with different language
+ 
+ *Compatible with nodejs >= 4*
  
  **The movements of the user on the browser can influence the behavior of the script. 
  Don't move the mouse in the browser.**
