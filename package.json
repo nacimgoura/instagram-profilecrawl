@@ -1,7 +1,7 @@
 {
   "name": "instagram-profilecrawl",
-  "version": "1.3.3",
-  "description": "Automation Script for crawling information from ones instagram profile",
+  "version": "1.3.4",
+  "description": "Automation Script for crawling information from multiple instagram profile",
   "main": "index.js",
   "scripts": {
     "install": "selenium-standalone install"
@@ -20,7 +20,8 @@
     "profile",
     "crawl",
     "nodejs",
-    "selenium"
+    "selenium",
+    "javascript"
   ],
   "author": {
     "name": "Nacim Goura",

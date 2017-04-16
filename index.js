@@ -112,7 +112,7 @@ function extractUrlPostProfile() {
 		}
 		const item = `._nljxa ._myci9:nth-child(${i}) a:nth-child(${j})`;
 		browser.moveToObject(item);
-		while (_.isNull(getValue(`${item} img`, 'src'))) {
+		while (_.isNull(getValue(`${item} li._qq2if span:first-child`)) && _.isNull(getValue(`${item} li._sjq6j span:first-child`)) && _.isNull(getValue(`${item} li._9ym92 span:first-child`))) {
 			browser.pause(100);
 		}
 		var post = {
@@ -130,8 +130,9 @@ function extractUrlPostProfile() {
 		const description = getValue(`${item} img`, 'alt');
 		if (description && _.isString(description)) {
 			post.description = description.trim();
-			post.tags = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^#/.exec(n)) || [];
-			post.mentions = description.replace(/\r?\n|\r/g, ' ').split(' ').filter(n => /^@/.exec(n)) || [];
+			const wordDescription = description.replace(/\r?\n|\r/g, ' ').replace(/\(|\)/g, '').split(' ');
+			post.tags = wordDescription.filter(n => /^#/.exec(n)) || [];
+			post.mentions = wordDescription.filter(n => /^@/.exec(n)) || [];
 		} else {
 			post.description = '';
 		}
@@ -200,8 +201,9 @@ function browsePosts() {
 		}
 
 		// get precise number likes
-		if ((browser.isVisible('span._tf9x3') && post.numberLikes > 11) || post.numberLikes !== 0) {
-			post.numberLikes = cleanNumber(getValue('span._tf9x3'));
+		var numberLikes = cleanNumber(getValue('span._tf9x3'));
+		if (post.numberLikes > 11 && numberLikes > post.numberLikes) {
+			post.numberLikes = numberLikes;
 		}
 
 		// get number view for video
@@ -254,7 +256,7 @@ function cleanNumber(number) {
 		if (/\dm/.test(number)) {
 			numberClean = Number(`${numberClean}00000`);
 		} else if (/\dk/.test(number)) {
-			numberClean = Number(`${numberClean}00`);
+			numberClean = Number(`${numberClean}000`);
 		}
 		if (_.isNaN(numberClean)) {
 			return 0;
