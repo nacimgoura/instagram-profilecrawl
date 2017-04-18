@@ -87,7 +87,7 @@ function loadProfile() {
 	}
 
 	if (browser.isExisting('a._8imhp')) {
-		browser.pause(200);
+		browser.pause(400);
 		browser.click('a._8imhp');
 	}
 
