@@ -17,6 +17,10 @@ realized in Python.
 I'm not a Python developer but I was very interested in this project so I realized
 the same thing but in nodeJS, bringing some improvements.
 
+Two way to crawl profile data in Instagram :
+- use Instagram API
+- use Selenium with chromedriver
+
 ## Functionality
  - crawl the number of followers, followings and posts
  - It's possible to crawl several accounts following
@@ -26,9 +30,7 @@ the same thing but in nodeJS, bringing some improvements.
  - support multiple image
  - work with different language
  
- *Compatible with nodejs >= 4*
- 
- **The movements of the user on the browser can influence the behavior of the script. 
+ **For selenium, the movements of the user on the browser can influence the behavior of the script. 
  Don't move the mouse in the browser.**
 
 ## Install

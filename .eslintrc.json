@@ -4,7 +4,6 @@
         "import"
     ],
     "rules": {
-        "indent": ["error", "tab", { "SwitchCase": 1 }],
-        "no-tabs": "off"
+        "indent": ["error", 4, { "SwitchCase": 1 }]
     }
 }
