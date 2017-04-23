@@ -11,12 +11,6 @@
 Automation Script for crawling information from multiple instagram profile, 
 like the number of posts, followers, tags and mentions of the posts.
 
-**Note** : This is an original idea of [timgrossmann](https://github.com/timgrossmann)
-with the project [instagram-profilecrawl](https://github.com/timgrossmann/instagram-profilecrawl)
-realized in Python.
-I'm not a Python developer but I was very interested in this project so I realized
-the same thing but in nodeJS, bringing some improvements.
-
 Two way to crawl profile data in Instagram :
 - use Instagram API
 - use Selenium with chromedriver
@@ -95,5 +89,5 @@ Structure of data :
 }
 ```
 
-## License 
-MIT © [Nacim Goura](https://nacimgoura.xyz)
+## License
+MIT © [Nacim Goura](http://nacimgoura.xyz)
