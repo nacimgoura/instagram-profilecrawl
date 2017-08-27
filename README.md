@@ -18,6 +18,7 @@ Two way to crawl profile data in Instagram :
 # last change
 - Remove lodash and unix-timestamp dependencies
 - Update code for work with new Insta UI
+- Add headless mode
 
 ## Functionality
  - crawl the number of followers, followings and posts
