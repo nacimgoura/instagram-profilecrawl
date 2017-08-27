@@ -3,7 +3,6 @@ const wdio = require('wdio');
 const selenium = require('selenium-standalone');
 const ora = require('ora');
 const chalk = require('chalk');
-const _ = require('lodash');
 const utils = require('./utils');
 
 const spinnerCrawl = ora('Init crawl!');
@@ -21,6 +20,7 @@ module.exports = {
         listProfileName = listName;
         selenium.start((err) => {
             if (err) {
+                console.log(err);
                 return spinnerCrawl.fail(chalk.red('Unable to start selenium server!'));
             }
             return initBrowser();
@@ -53,7 +53,7 @@ function loadProfile() {
     browser.url(`https://instagram.com/${this.profileName}`);
 
     // check if profile exist
-    if (browser.isExisting('div.error-container')) {
+    if (browser.isExisting('.dialog-404')) {
         return spinnerCrawl.fail(chalk.red(`Profile ${this.profileName} doesn't exist!`));
     }
 
@@ -63,15 +63,15 @@ function loadProfile() {
 
     this.dataProfile = {
         alias: getValue('h1'),
-        username: getValue('h2._79dar'),
-        descriptionProfile: getValue('._bugdy span'),
+        username: getValue('h2._kc4z2'),
+        descriptionProfile: getValue('._tb97a span:first-child'),
         urlProfile: browser.getUrl(),
-        urlImgProfile: getValue('._o0ohn img', 'src'),
-        website: getValue('a._56pjv'),
-        numberPosts: utils.cleanNumber(getValue('ul._9o0bc li:first-child ._bkw5z')),
-        numberFollowers: utils.cleanNumber(getValue('ul._9o0bc li:nth-child(2) ._bkw5z')),
-        numberFollowing: utils.cleanNumber(getValue('ul._9o0bc li:nth-child(3) ._bkw5z')),
-        private: browser.isVisible('h2._glq0k'),
+        urlImgProfile: getValue('._b0acm img', 'src'),
+        website: getValue('a._ng0lj'),
+        numberPosts: utils.cleanNumber(getValue('ul._h9luf li:first-child ._fd86t')),
+        numberFollowers: utils.cleanNumber(getValue('ul._h9luf li:nth-child(2) ._fd86t')),
+        numberFollowing: utils.cleanNumber(getValue('ul._h9luf li:nth-child(3) ._fd86t')),
+        private: browser.isVisible('h2._kcrwx'),
         posts: [],
     };
 
@@ -79,9 +79,9 @@ function loadProfile() {
         return utils.createFile(this.dataProfile);
     }
 
-    if (browser.isExisting('a._8imhp')) {
+    if (browser.isExisting('a._1cr2e')) {
         browser.pause(400);
-        browser.click('a._8imhp');
+        browser.click('a._1cr2e');
     }
 
     return extractUrlPostProfile();
@@ -93,45 +93,44 @@ function extractUrlPostProfile() {
     let i = 1;
     let j = 1;
 
-    if (browser.isExisting('a._8imhp')) {
-        browser.click('a._8imhp');
+    if (browser.isExisting('a._1cr2e')) {
+        browser.click('a._1cr2e');
     }
 
     function moveToObject() {
         if (self.dataProfile.posts.length === self.dataProfile.numberPosts) {
-            this.urls = getValue('._nljxa a', 'href');
-            if (!_.isArray(this.urls)) {
+            this.urls = getValue('._cmdpi a', 'href');
+            if (!Array.isArray(this.urls)) {
                 this.urls = [this.urls];
             }
             spinnerCrawl.succeed(chalk.green('End of the first step!'));
             return browsePosts();
         }
-        const item = `._nljxa ._myci9:nth-child(${i}) a:nth-child(${j})`;
+        const item = `._70iju:nth-child(${i}) ._mck9w:nth-child(${j})`;
         while (!browser.isVisible(item)) {
             browser.pause(100);
         }
         browser.moveToObject(item);
-        let numberLikes = getValue(`${item} li._sjq6j span:first-child`);
-        let numberViews = getValue(`${item} li._9ym92 span:first-child`);
-        while (!numberLikes && !numberViews) {
+        let numberLikes = getValue(`${item} ._mli86 ul li:nth-child(1) span:first-child`);
+        while (!numberLikes) {
             browser.pause(100);
-            numberLikes = getValue(`${item} li._sjq6j span:first-child`);
-            numberViews = getValue(`${item} li._qq2if span:first-child`);
+            numberLikes = getValue(`${item} ._mli86 ul li:nth-child(1) span:first-child`);
         }
+        let numberViews = numberLikes;
         const post = {
-            url: getValue(item, 'href'),
+            url: getValue(`${item} a`, 'href'),
             urlImage: getValue(`${item} img`, 'src'),
             numberLikes: utils.cleanNumber(numberLikes),
             numberViews: utils.cleanNumber(numberViews),
-            numberComments: utils.cleanNumber(getValue(`${item} li._qq2if span:first-child`)),
-            isVideo: browser.isVisible(`${item} span.coreSpriteVideoIconLarge`),
-            multipleImage: browser.isVisible(`${item} span.coreSpriteSidecarIconLarge`),
+            numberComments: utils.cleanNumber(getValue(`${item} ._mli86 ul li:nth-child(2) span:first-child`)),
+            isVideo: browser.isVisible(`${item} span.coreSpriteVideoIconSmall`),
+            multipleImage: browser.isVisible(`${item} span.coreSpriteSidecarIconSmall`),
             tags: [],
             mentions: [],
         };
-
+        
         const description = getValue(`${item} img`, 'alt');
-        if (description && _.isString(description)) {
+        if (description && typeof description === 'string') {
             post.description = description.trim();
             post.tags = utils.getTags(description);
             post.mentions = utils.getMentions(description);
@@ -153,7 +152,7 @@ function extractUrlPostProfile() {
     }
 
     browser.pause(1000);
-    browser.moveToObject('img._iv4d5');
+    browser.moveToObject('footer');
     moveToObject();
 }
 
@@ -165,12 +164,13 @@ function browsePosts() {
     let number = 0;
     while (this.urls.length > 0) {
         // access url
-        browser.url(this.urls.shift());
-        const post = _.find(this.dataProfile.posts, {
-            url: `${browser.getUrl()}?taken-by=${this.dataProfile.alias}`,
+        const currentUrl = this.urls.shift();
+        browser.url(currentUrl);
+        const post = this.dataProfile.posts.find((n) => {
+            return n.url === currentUrl
         });
-        post.localization = getValue('a._kul9p', 'title');
-        post.date = utils.getDate(getValue('time', 'title'));
+        post.localization = getValue('a._q8ysx');
+        post.date = getValue('time', 'title');
 
         // get different url if post is video or image
         if (post.isVideo) {
@@ -182,11 +182,11 @@ function browsePosts() {
             post.urlImage = [post.urlImage];
             while (browser.isExisting('a.coreSpriteRightChevron')) {
                 browser.click('a.coreSpriteRightChevron');
-                let image = getValue('img._icyx7', 'src');
+                let image = getValue('img', 'src');
                 let video = getValue('video', 'src');
                 while (!image && !video) {
                     browser.pause(100);
-                    image = getValue('img._icyx7', 'src');
+                    image = getValue('img', 'src');
                     video = getValue('video', 'src');
                 }
                 if (browser.isVisible('video')) {
@@ -203,7 +203,7 @@ function browsePosts() {
         }
 
         // get precise number likes
-        const numberLikes = utils.cleanNumber(getValue('span._tf9x3'));
+        const numberLikes = utils.cleanNumber(getValue('span._nzn1h span:first-child'));
         if (post.numberLikes > 11 && numberLikes > post.numberLikes) {
             post.numberLikes = numberLikes;
         }
@@ -219,7 +219,7 @@ function browsePosts() {
         // get mentions in image
         let mentionsImage = getValue('a._ofpcv', 'href');
         if (mentionsImage) {
-            if (_.isArray(mentionsImage)) {
+            if (Array.isArray(mentionsImage)) {
                 mentionsImage = mentionsImage.join(',')
                     .replace(/https:\/\/www.instagram.com\//g, '@')
                     .replace(/\//g, '')

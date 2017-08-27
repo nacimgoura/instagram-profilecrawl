@@ -77,7 +77,7 @@ module.exports = {
                 tags: utils.getTags(post.caption),
                 mentions: utils.getMentions(post.caption),
                 description: post.caption,
-                date: utils.getDate(post.date),
+                date: new Date(post.date),
             });
         });
         next(this);

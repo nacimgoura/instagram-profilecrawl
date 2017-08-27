@@ -1,6 +1,5 @@
 
 const fs = require('fs');
-const time = require('unix-timestamp');
 const _ = require('lodash');
 
 module.exports = {
@@ -44,13 +43,6 @@ module.exports = {
         } catch (e) {
             return [];
         }
-    },
-
-    getDate(date) {
-        if (_.isNumber(date)) {
-            return new Date(time.toDate(date));
-        }
-        return new Date(date);
     },
 
     // create final file of profile data

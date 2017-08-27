@@ -31,13 +31,13 @@ const prompt = {
     name: 'typecrawl',
     choices: [
         'API Instagram (the faster)',
-        'Selenium with chromedriver (the best pedagogical)',
+        'Selenium with chromedriver (more complete but less)',
     ],
 };
 inquirer.prompt(prompt).then((answers) => {
     if (answers.typecrawl === 'API Instagram (the faster)') {
         api.start(listProfileName);
-    } else if (answers.typecrawl === 'Selenium with chromedriver (the best pedagogical)') {
+    } else if (answers.typecrawl === 'Selenium with chromedriver (more complete but less)') {
         crawl.start(listProfileName);
     } else {
         spinnerLoading.fail(chalk.red('Choice not existing!!'));
