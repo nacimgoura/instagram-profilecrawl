@@ -1,6 +1,6 @@
 {
     "name": "instagram-profilecrawl",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "description": "Automation Script for crawling information from multiple instagram profile",
     "license": "MIT",
     "repository": {
@@ -31,7 +31,9 @@
         "nodejs",
         "selenium",
         "javascript",
-        "api"
+        "api",
+        "chrome",
+        "headless"
     ],
     "dependencies": {
         "chalk": "^2.0.1",

@@ -24,12 +24,9 @@ Two way to crawl profile data in Instagram :
  - It's possible to crawl multiple accounts
  - crawl each post with number of likes and comments
  - crawl date, localization, description, tags and mention
- - work with all type of media
- - support multiple image
- - work with different language
- 
- **For selenium, the movements of the user on the browser can influence the behavior of the script. 
- Don't move the mouse in the browser.**
+ - crawl image and video
+ - work with instagram in different language (english, french, german...)
+ - Headless mode
 
 ## Install
 ```
@@ -55,7 +52,7 @@ If you've encountered a problem and you need some help, please let me an issue.
 ## Example 
 You can find complete examples in the example folder.
 
-Structure of data : 
+Example : 
 ```
 {
   "alias": "nacimgoura",
@@ -75,7 +72,7 @@ Structure of data :
       "urlImage": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-15/e35/20987332_139270593343735_549544196554358784_n.jpg",
       "width": 1080,
       "height": 1080,
-      "numberLikes": 30,
+      "numberLikes": 31,
       "numberComments": 0,
       "isVideo": false,
       "multipleImage": false,
@@ -97,7 +94,6 @@ Structure of data :
         "#morocco"
       ],
       "mentions": [],
-      "tags": [#travel, #architecture, #garden, #street, #city, #walk, #tourism, #park, #stone, #road, #urban, #atlas, #instaday, #morocco]
       "description": "Ifrane, la petite Suisse 🎍\n.\n#step #travel #architecture #garden #street #city #walk #tourism #park #stone #road #urban #atlas #instaday #morocco",
       "date": "25 Aout 2017"
     },

@@ -9,6 +9,9 @@ const spinnerCrawl = ora('Init crawl!');
 const options = {
     desiredCapabilities: {
         browserName: 'chrome',
+        chromeOptions: {
+            args: ['--headless', '--disable-gpu', '--window-size=1280,800', '--dns-prefetch-disable']
+        }
     },
 };
 const browser = wdio.getBrowser(options);
