@@ -7,6 +7,7 @@ const inquirer = require('inquirer');
 const api = require('./api');
 const crawl = require('./crawl');
 
+// Cli
 const cli = meow(`
     Usage
 	  $ instagram-profilecrawl <name> <name>
@@ -15,31 +16,32 @@ const cli = meow(`
 	  $ instagram-profilecrawl nacimgoura emmawatson
 `);
 
-// init spinner
+// Init spinner
 const spinnerLoading = ora(chalk.blue('Init script!'));
 
-// test if name is entered
+// Test if name is entered
 const listProfileName = cli.input;
-if (!listProfileName.length) {
-    spinnerLoading.fail(chalk.red('No name entered!'));
-    process.exit();
+if (listProfileName.length <= 0) {
+	spinnerLoading.fail(chalk.red('No name entered!'));
+	process.exit();
 }
 
+// Choose method for crawl
 const prompt = {
-    type: 'list',
-    message: 'Choose your method for crawl.',
-    name: 'typecrawl',
-    choices: [
-        'API Instagram (the faster)',
-        'Selenium with chromedriver (more complete but slower)',
-    ],
+	type: 'list',
+	message: 'Choose your method for crawl.',
+	name: 'typecrawl',
+	choices: [
+		'API Instagram (the faster)',
+		'Selenium with chromedriver (more complete but slower)'
+	]
 };
-inquirer.prompt(prompt).then((answers) => {
-    if (answers.typecrawl === 'API Instagram (the faster)') {
-        api.start(listProfileName);
-    } else if (answers.typecrawl === 'Selenium with chromedriver (more complete but slower)') {
-        crawl.start(listProfileName);
-    } else {
-        spinnerLoading.fail(chalk.red('Choice not existing!!'));
-    }
+inquirer.prompt(prompt).then(answers => {
+	if (answers.typecrawl === 'API Instagram (the faster)') {
+		api.start(listProfileName);
+	} else if (answers.typecrawl === 'Selenium with chromedriver (more complete but slower)') {
+		crawl.start(listProfileName);
+	} else {
+		spinnerLoading.fail(chalk.red('Choice not existing!!'));
+	}
 });
