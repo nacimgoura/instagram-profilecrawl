@@ -1,6 +1,8 @@
 <img src="http://diylogodesigns.com/blog/wp-content/uploads/2016/05/instagram-Logo-PNG-Transparent-Background-download.png" width="140" align="right">
 
 # Instagram-Profilecrawl 
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/nacimgoura/instagram-profilecrawl.svg)](https://greenkeeper.io/)
 [![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
 [![Build Status](https://travis-ci.org/nacimgoura/instagram-profilecrawl.svg?branch=master)](https://travis-ci.org/nacimgoura/instagram-profilecrawl)
 [![built with NodeJS](https://img.shields.io/badge/Built%20with-nodejs-green.svg)](https://www.nodejs.org/)
