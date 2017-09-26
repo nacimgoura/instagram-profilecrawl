@@ -88,7 +88,7 @@ module.exports = {
 				tags: utils.getTags(post.caption),
 				mentions: utils.getMentions(post.caption),
 				description: post.caption,
-				date: new Date(post.date)
+				date: new Date(parseInt(post.date) * 1000)
 			});
 		});
 		next(this);
