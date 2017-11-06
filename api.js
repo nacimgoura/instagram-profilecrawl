@@ -84,7 +84,7 @@ module.exports = {
 				numberLikes: post.likes.count,
 				numberComments: post.comments.count,
 				isVideo: post.is_video,
-				multipleImage: false,
+				multipleImage: (post.__typename === 'GraphSidecar'),
 				tags: utils.getTags(post.caption),
 				mentions: utils.getMentions(post.caption),
 				description: post.caption,
