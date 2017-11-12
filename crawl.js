@@ -27,7 +27,8 @@ module.exports = {
 		selenium.start(err => {
 			if (err) {
 				console.log(err);
-				return spinnerCrawl.fail(chalk.red('Unable to start selenium server!'));
+				spinnerCrawl.fail(chalk.red('Unable to start selenium server!'));
+				process.exit();
 			}
 			return initBrowser();
 		});

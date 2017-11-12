@@ -2,7 +2,6 @@
 
 # Instagram-Profilecrawl 
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/nacimgoura/instagram-profilecrawl.svg)](https://greenkeeper.io/)
 [![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
 [![Build Status](https://travis-ci.org/nacimgoura/instagram-profilecrawl.svg?branch=master)](https://travis-ci.org/nacimgoura/instagram-profilecrawl)
 [![built with NodeJS](https://img.shields.io/badge/Built%20with-nodejs-green.svg)](https://www.nodejs.org/)
@@ -17,13 +16,8 @@ Two way to crawl profile data in Instagram :
 - use Instagram API (the faster)
 - use Selenium with chromedriver (more complete but slower)
 
-# last change
-- Remove lodash and unix-timestamp dependencies
-- Update code for work with new Insta UI
-- Add headless mode
-- Fix bug
-
-If you've encountered a problem and you need some help, please let me an issue.
+**If you've encountered a problem and you need some help, 
+please let me an issue.**
 
 ## Functionality
  - crawl the number of followers, followings and posts
@@ -106,6 +100,11 @@ Example :
   ]      
 }
 ```
+
+## Contributor
+- [thosuperman](https://github.com/thosuperman)
+- [eek](https://github.com/eek)
+
 
 ## License
 MIT © [Nacim Goura](http://nacimgoura.fr)
