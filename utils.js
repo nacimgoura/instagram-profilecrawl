@@ -45,9 +45,13 @@ module.exports = {
 	},
 
     // Create final file of profile data
-	createFile(data) {
+	createFile(data, options) {
+	    let outputFile= `profile_${data.alias}.json`;
+	    if (options.output || options.o) {
+            outputFile = options.ouput || options.o;
+        }
 		return new Promise((resolve, reject) => {
-			fs.writeFile(`profile ${data.alias}.json`, JSON.stringify(data, null, 2), 'utf-8', err => {
+			fs.writeFile(outputFile, JSON.stringify(data, null, 2), 'utf-8', err => {
 				if (err) {
 					return reject(err);
 				}

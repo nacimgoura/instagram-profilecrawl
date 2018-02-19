@@ -1,6 +1,6 @@
 <img src="http://diylogodesigns.com/blog/wp-content/uploads/2016/05/instagram-Logo-PNG-Transparent-Background-download.png" width="140" align="right">
 
-# Instagram-Profilecrawl 
+# Instagram-Profilecrawl
 
 [![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
 [![Build Status](https://travis-ci.org/nacimgoura/instagram-profilecrawl.svg?branch=master)](https://travis-ci.org/nacimgoura/instagram-profilecrawl)
@@ -9,7 +9,7 @@
 [![dependances](https://david-dm.org/nacimgoura/instagram-profilecrawl.svg)](https://david-dm.org/nacimgoura/instagram-profilecrawl)
 
 ## Quickly crawl the information (e.g. followers, tags, mentions, date, etc...) of an instagram profile. No login required!
-Automation Script for crawling information from multiple instagram profile, 
+Automation Script for crawling information from multiple instagram profile,
 like the number of posts, followers, tags and mentions of the posts.
 Inspired by [this project](https://github.com/timgrossmann/instagram-profilecrawl) but made in nodeJS and more complete.
 
@@ -17,7 +17,7 @@ Two way to crawl profile data in Instagram :
 - use Instagram API (the faster)
 - use Selenium with chromedriver (more complete but slower)
 
-**If you've encountered a problem and you need some help, 
+**If you've encountered a problem and you need some help,
 please let me an issue.**
 
 ## Functionality
@@ -43,16 +43,20 @@ npm install -g instagram-profilecrawl
 ## Usage
 ```
 Usage
-	$ instagram-profilecrawl <name> <name>
+	  $ instagram-profilecrawl <input>
+
+	Options
+	  --method, -m define method (default api)
+	  --output, -o define output file (default profile_<input>.json)
 
 	Examples
-	  $ instagram-profilecrawl nacimgoura
+	  $ instagram-profilecrawl nacimgoura --method=selenium
 ```
 
-## Example 
+## Example
 You can find complete examples in the example folder.
 
-Example : 
+Example :
 ```
 {
   "alias": "nacimgoura",
@@ -98,13 +102,14 @@ Example :
       "date": "25 Aout 2017"
     },
         ...
-  ]      
+  ]
 }
 ```
 
 ## Contributor
 - [thosuperman](https://github.com/thosuperman)
 - [eek](https://github.com/eek)
+- [marcospgp](https://github.com/marcospgp)
 
 
 ## License

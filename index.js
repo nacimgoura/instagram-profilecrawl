@@ -3,18 +3,32 @@
 const ora = require('ora');
 const chalk = require('chalk');
 const meow = require('meow');
-const inquirer = require('inquirer');
 const api = require('./api');
 const crawl = require('./crawl');
 
 // Cli
 const cli = meow(`
     Usage
-	  $ instagram-profilecrawl <name> <name>
+	  $ instagram-profilecrawl <input>
+	  
+	Options
+	  --method, -m define method (default api)
+	  --output, -o define output file (default profile_<input>.json)
 
 	Examples
 	  $ instagram-profilecrawl nacimgoura emmawatson
-`);
+`, {
+    flags: {
+        method: {
+            type: 'string',
+			alias: 'm'
+        },
+		output: {
+        	type: 'string',
+			alias: 'o'
+		}
+    }
+});
 
 // Init spinner
 const spinnerLoading = ora(chalk.blue('Init script!'));
@@ -26,22 +40,12 @@ if (listProfileName.length <= 0) {
 	process.exit();
 }
 
-// Choose method for crawl
-const prompt = {
-	type: 'list',
-	message: 'Choose your method for crawl.',
-	name: 'typecrawl',
-	choices: [
-		'API Instagram (the faster)',
-		'Selenium with chromedriver (more complete but slower)'
-	]
-};
-inquirer.prompt(prompt).then(answers => {
-	if (answers.typecrawl === 'API Instagram (the faster)') {
-		api.start(listProfileName);
-	} else if (answers.typecrawl === 'Selenium with chromedriver (more complete but slower)') {
-		crawl.start(listProfileName);
-	} else {
-		spinnerLoading.fail(chalk.red('Choice not existing!!'));
-	}
-});
+if (cli.flags.method) {
+    if (cli.flags.method === 'selenium' || cli.flags.m === 'selenium') {
+        crawl.start(listProfileName, cli.flags);
+    } else {
+        api.start(listProfileName, cli.flags);
+    }
+} else {
+    api.start(listProfileName, cli.flags);
+}

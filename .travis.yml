@@ -7,4 +7,6 @@ before_install:
   - sudo apt-get update && sudo apt-get install oracle-java8-installer
   - npm install -g instagram-profilecrawl
 script:
-  - echo test
+  - instagram-profilecrawl --method=api --output=nacimgoura_api.json
+  - sleep 10
+  - instagram-profilecrawl --method=selenium --output=nacimgoura_selenium.json

@@ -8,11 +8,13 @@ const spinnerApi = ora('Init Api!');
 
 module.exports = {
 
-	/**
-	 * For each name, load profile
-	 * @param {Array} listProfileName
-	 */
-	start(listProfileName) {
+    /**
+     * For each name, load profile
+     * @param {Array} listProfileName
+     * @param options
+     */
+	start(listProfileName, options) {
+        this.options = options;
 		spinnerApi.start();
 		listProfileName.forEach(profileName => {
 			got(`https://instagram.com/${profileName}/?__a=1`, {json: true})
@@ -98,7 +100,7 @@ module.exports = {
 	 * Write file
 	 */
 	createFile() {
-		utils.createFile(this.parsedData)
+		utils.createFile(this.parsedData, this.options)
             .then(spinnerApi.succeed(chalk.green(`File created with success for profile ${this.parsedData.alias}`)))
             .catch(err => spinnerApi.fail(chalk.red(`Error : ${err.message}`)));
 	}
