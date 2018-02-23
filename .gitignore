@@ -2,3 +2,4 @@
 node_modules/
 ./profile*
 .vscode/
+.DS_STORE

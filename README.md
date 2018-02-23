@@ -56,55 +56,7 @@ Usage
 ## Example
 You can find complete examples in the example folder.
 
-Example :
-```
-{
-  "alias": "nacimgoura",
-  "username": "Nacim 🇫🇷",
-  "isOfficial": false,
-  "descriptionProfile": "Student 👨🏼‍🎓\nBesançon - Lyon📍\nCapturing the World 🌍📸",
-  "urlProfile": "https://www.instagram.com/nacimgoura",
-  "urlImgProfile": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-19/s320x320/20987071_278425702639941_4940310501868437504_a.jpg",
-  "website": null,
-  "numberPosts": 7,
-  "numberFollowers": 202,
-  "numberFollowing": 499,
-  "private": false,
-  "posts": [
-    {
-      "url": "https://www.instagram.com/p/BYOV8yBAU03",
-      "urlImage": "https://scontent-cdg2-1.cdninstagram.com/t51.2885-15/e35/20987332_139270593343735_549544196554358784_n.jpg",
-      "width": 1080,
-      "height": 1080,
-      "numberLikes": 31,
-      "numberComments": 0,
-      "isVideo": false,
-      "multipleImage": false,
-      "tags": [
-        "#step",
-        "#travel",
-        "#architecture",
-        "#garden",
-        "#street",
-        "#city",
-        "#walk",
-        "#tourism",
-        "#park",
-        "#stone",
-        "#road",
-        "#urban",
-        "#atlas",
-        "#instaday",
-        "#morocco"
-      ],
-      "mentions": [],
-      "description": "Ifrane, la petite Suisse 🎍\n.\n#step #travel #architecture #garden #street #city #walk #tourism #park #stone #road #urban #atlas #instaday #morocco",
-      "date": "25 Aout 2017"
-    },
-        ...
-  ]
-}
-```
+<img src="img/example.png">
 
 ## Contributor
 - [thosuperman](https://github.com/thosuperman)
