@@ -8,15 +8,6 @@
 [![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-red.svg)](https://github.com/SeleniumHQ/selenium)
 [![dependances](https://david-dm.org/nacimgoura/instagram-profilecrawl.svg)](https://david-dm.org/nacimgoura/instagram-profilecrawl)
 
-## Changes introduced by this fork
-
-Selenium is now an optional dependency. If you want to use the script in that mode (instead of API mode), you have to run the following commands first:
-
-```text
-npm install selenium-standalone@latest -g
-selenium-standalone install
-```
-
 ## Quickly crawl the information (e.g. followers, tags, mentions, date, etc...) of an instagram profile. No login required!
 Automation Script for crawling information from multiple instagram profile,
 like the number of posts, followers, tags and mentions of the posts.
@@ -37,6 +28,14 @@ please let me an issue.**
  - crawl image and video
  - work with instagram in different language (english, french, german...)
  - Headless mode
+
+### WARNING
+Selenium is now an optional dependency. If you want to use the script in that mode (instead of API mode), you have to run the following commands first:
+
+```text
+npm install selenium-standalone@latest -g
+selenium-standalone install
+```
 
 ## Install
 ```
