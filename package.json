@@ -17,7 +17,6 @@
     },
     "main": "index.js",
     "scripts": {
-        "install": "selenium-standalone install",
         "start": "node index.js"
     },
     "bin": {
@@ -42,7 +41,6 @@
         "got": "^8.2.0",
         "meow": "^4.0.0",
         "ora": "^2.0.0",
-        "selenium-standalone": "^6.12.0",
         "wdio": "^1.0.3"
     },
     "devDependencies": {
