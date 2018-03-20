@@ -17,17 +17,17 @@ const cli = meow(`
 	Examples
 	  $ instagram-profilecrawl nacimgoura emmawatson
 `, {
-    flags: {
-        method: {
-            type: 'string',
-			alias: 'm'
-        },
-		output: {
-        	type: 'string',
-			alias: 'o'
+		flags: {
+			method: {
+				type: 'string',
+				alias: 'm'
+			},
+			output: {
+				type: 'string',
+				alias: 'o'
+			}
 		}
-    }
-});
+	});
 
 // Init spinner
 const spinnerLoading = ora(chalk.blue('Init script!'));
@@ -40,7 +40,7 @@ if (listProfileName.length <= 0) {
 }
 
 if (cli.flags.method) {
-    if (cli.flags.method === 'selenium' || cli.flags.m === 'selenium') {
+	if (cli.flags.method === 'selenium' || cli.flags.m === 'selenium') {
 		try {
 			const crawl = require('./crawl');
 			crawl.start(listProfileName, cli.flags);
@@ -48,9 +48,9 @@ if (cli.flags.method) {
 			spinnerLoading.fail(chalk.red('Tried running in Selenium mode, but Selenium is not installed!'));
 			process.exit();
 		}
-    } else {
-        api.start(listProfileName, cli.flags);
-    }
+	} else {
+		api.start(listProfileName, cli.flags);
+	}
 } else {
-    api.start(listProfileName, cli.flags);
+	api.start(listProfileName, cli.flags);
 }

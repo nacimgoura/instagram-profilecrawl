@@ -14,11 +14,11 @@ module.exports = {
      * @param options
      */
 	start(listProfileName, options) {
-        this.options = options;
+		this.options = options;
 		spinnerApi.start();
 		listProfileName.forEach(profileName => {
-			got(`https://instagram.com/${profileName}/?__a=1`, {json: true})
-                .then(data => this.parseData(profileName, data.body));
+			got(`https://instagram.com/${profileName}/?__a=1`, { json: true })
+				.then(data => this.parseData(profileName, data.body));
 		});
 	},
 
@@ -27,39 +27,41 @@ module.exports = {
 	 * @param {String} profileName
 	 * @param {Object} data
 	 */
-	parseData(profileName, data) {
+	parseData(profileName, body) {
+		const { user } = body.graphql;
+		const userId = user.id;
 		this.parsedData = {
-			alias: data.user.username,
-			username: data.user.full_name,
-			descriptionProfile: data.user.biography,
-			urlProfile: `https://www.instagram.com/${data.user.username}`,
-			urlImgProfile: data.user.profile_pic_url_hd,
-			website: data.user.external_url,
-			numberPosts: data.user.media.count,
-			numberFollowers: data.user.followed_by.count,
-			numberFollowing: data.user.follows.count,
-			private: data.user.is_private,
-			isOfficial: data.user.is_verified,
+			id: userId,
+			alias: user.username,
+			username: user.full_name,
+			descriptionProfile: user.biography,
+			urlProfile: `https://www.instagram.com/${user.username}`,
+			urlImgProfile: user.profile_pic_url_hd,
+			website: user.external_url,
+			numberPosts: user.edge_owner_to_timeline_media.count,
+			numberFollowers: user.edge_followed_by.count,
+			numberFollowing: user.edge_follow.count,
+			private: user.is_private,
+			isOfficial: user.is_verified,
 			posts: []
 		};
 
-		let hasNextPage = data.user.media.page_info.has_next_page;
-		let idNextPage = data.user.media.page_info.end_cursor;
+		let hasNextPage = user.edge_owner_to_timeline_media.page_info.has_next_page;
+		let idNextPage = user.edge_owner_to_timeline_media.page_info.end_cursor;
 
-		function next(that) {
-			const self = that;
+		function next(self) {
 			if (hasNextPage === false) {
 				self.createFile();
 			} else {
 				setTimeout(() => {
-					got(`https://instagram.com/${profileName}/?__a=1&max_id=${idNextPage}`, {json: true})
-                        .then(request => {
-	const newData = request.body;
-	spinnerApi.text = `crawl posts with API : ${self.parsedData.posts.length}/${self.parsedData.numberPosts}`;
-	hasNextPage = newData.user.media.page_info.has_next_page;
-	idNextPage = newData.user.media.page_info.end_cursor;
-	self.createPosts(newData.user.media.nodes, next);
-});
+					got(`https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=12&after=${idNextPage}`, { json: true })
+						.then(request => {
+							const { user } = request.body.data;
+							spinnerApi.text = `crawl posts with API : ${self.parsedData.posts.length}/${self.parsedData.numberPosts}`;
+							hasNextPage = user.edge_owner_to_timeline_media.page_info.has_next_page;
+							idNextPage = user.edge_owner_to_timeline_media.page_info.end_cursor;
+							self.createPosts(user.edge_owner_to_timeline_media.edges, next);
+						});
 				}, 1000);
 			}
 		}
@@ -67,7 +69,7 @@ module.exports = {
 		if (this.parsedData.private === true) {
 			this.createFile();
 		} else {
-			this.createPosts(data.user.media.nodes, next);
+			this.createPosts(user.edge_owner_to_timeline_media.edges, next);
 		}
 	},
 
@@ -77,20 +79,21 @@ module.exports = {
 	 * @param {Callback} next
 	 */
 	createPosts(data, next) {
-		data.forEach(post => {
+		data.forEach(item => {
+			const post = item.node;
 			this.parsedData.posts.push({
-				url: `https://www.instagram.com/p/${post.code}`,
-				urlImage: post.display_src,
+				url: `https://www.instagram.com/p/${post.shortcode}`,
+				urlImage: post.display_url,
 				width: post.dimensions.width,
 				height: post.dimensions.height,
-				numberLikes: post.likes.count,
-				numberComments: post.comments.count,
+				numberLikes: post.edge_media_preview_like.count,
+				numberComments: post.edge_media_to_comment.count,
 				isVideo: post.is_video,
 				multipleImage: (post.__typename === 'GraphSidecar'),
-				tags: utils.getTags(post.caption),
-				mentions: utils.getMentions(post.caption),
-				description: post.caption,
-				date: new Date(parseInt(post.date) * 1000)
+				tags: utils.getTags(post.edge_media_to_caption.edges[0].node.text),
+				mentions: utils.getMentions(post.edge_media_to_caption.edges[0].node.text),
+				description: post.edge_media_to_caption.edges[0].node.text,
+				date: new Date(parseInt(post.taken_at_timestamp) * 1000)
 			});
 		});
 		next(this);
@@ -101,7 +104,7 @@ module.exports = {
 	 */
 	createFile() {
 		utils.createFile(this.parsedData, this.options)
-            .then(spinnerApi.succeed(chalk.green(`File created with success for profile ${this.parsedData.alias}`)))
-            .catch(err => spinnerApi.fail(chalk.red(`Error : ${err.message}`)));
+			.then(spinnerApi.succeed(chalk.green(`File created with success for profile ${this.parsedData.alias}`)))
+			.catch(err => spinnerApi.fail(chalk.red(`Error : ${err.message}`)));
 	}
 };
