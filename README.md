@@ -79,6 +79,7 @@ You can find complete examples in the example folder.
 * [thosuperman](https://github.com/thosuperman)
 * [eek](https://github.com/eek)
 * [marcospgp](https://github.com/marcospgp)
+* [alejandronanez](https://github.com/alejandronanez)
 
 ## License
 
