@@ -15,7 +15,7 @@ module.exports = {
     this.options = options;
     spinnerApi.start();
     listProfileName.forEach(profileName => {
-      got(`https://instagram.com/${profileName}/?__a=1`, { json: true }).then(
+      got(`https://instagram.com/${profileName}/?__a=1`, {json: true}).then(
         data => this.parseData(profileName, data.body)
       );
     });
@@ -27,7 +27,7 @@ module.exports = {
    * @param {Object} data
    */
   parseData(profileName, body) {
-    const { user } = body.graphql;
+    const {user} = body.graphql;
     const userId = user.id;
     this.parsedData = {
       id: userId,
@@ -55,9 +55,9 @@ module.exports = {
         setTimeout(() => {
           got(
             `https://instagram.com/graphql/query/?query_id=17888483320059182&id=${userId}&first=12&after=${idNextPage}`,
-            { json: true }
+            {json: true}
           ).then(request => {
-            const { user } = request.body.data;
+            const {user} = request.body.data;
             spinnerApi.text = `crawl posts with API : ${
               self.parsedData.posts.length
             }/${self.parsedData.numberPosts}`;

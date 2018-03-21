@@ -23,7 +23,16 @@
   "scripts": {
     "start": "node index.js",
     "precommit": "lint-staged",
-    "prettier:format": "prettier '**/*.{js,json,ts,md}' --write"
+    "prettier:format": "prettier '**/*.{js,json,ts,md}' --write",
+    "xo": "xo"
+  },
+  "xo": {
+    "space": true,
+    "bracketSpacing": true,
+    "rules": {
+      "space-in-brackets": 0,
+      "operator-linebreak": 0
+    }
   },
   "bin": {
     "instagram-profilecrawl": "index.js"
