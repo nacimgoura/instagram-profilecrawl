@@ -94,10 +94,12 @@ module.exports = {
         numberComments: post.edge_media_to_comment.count,
         isVideo: post.is_video,
         multipleImage: post.__typename === 'GraphSidecar',
-        tags: utils.getTags(post.edge_media_to_caption.edges[0].node.text),
-        mentions: utils.getMentions(
-          post.edge_media_to_caption.edges[0].node.text
-        ),
+        tags: post.edge_media_to_caption.edges.length
+          ? utils.getTags(post.edge_media_to_caption.edges[0].node.text)
+          : [],
+        mentions: post.edge_media_to_caption.edges.length
+          ? utils.getMentions(post.edge_media_to_caption.edges[0].node.text)
+          : [],
         description: post.edge_media_to_caption.edges[0].node.text,
         date: new Date(parseInt(post.taken_at_timestamp) * 1000)
       });
