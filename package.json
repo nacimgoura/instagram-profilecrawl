@@ -23,7 +23,8 @@
   "scripts": {
     "start": "node index.js",
     "precommit": "lint-staged",
-    "prettier:format": "prettier '**/*.{js,ts,md}' --write"
+    "prettier:format": "prettier '**/*.{js,json,ts,md}' --write",
+    "eslint": "eslint *.js --no-cache"
   },
   "bin": {
     "instagram-profilecrawl": "index.js"
@@ -50,6 +51,8 @@
     "wdio": "^1.0.3"
   },
   "devDependencies": {
+    "eslint": "^4.19.0",
+    "eslint-config-prettier": "^2.9.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
     "prettier": "1.11.1",
