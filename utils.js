@@ -46,7 +46,7 @@ module.exports = {
   createFile(data, options) {
     let outputFile = `profile_${data.alias}.json`;
     if (options.output || options.o) {
-      outputFile = options.ouput || options.o;
+      outputFile = options.output || options.o;
     }
     return new Promise((resolve, reject) => {
       fs.writeFile(outputFile, JSON.stringify(data, null, 2), 'utf-8', err => {
@@ -56,5 +56,5 @@ module.exports = {
         return resolve();
       });
     });
-  }
+  },
 };

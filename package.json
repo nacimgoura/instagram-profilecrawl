@@ -1,7 +1,8 @@
 {
   "name": "instagram-profilecrawl",
   "version": "1.8.3",
-  "description": "Automation Script for crawling information from multiple instagram profile",
+  "description":
+    "Automation Script for crawling information from multiple instagram profile",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,24 +18,12 @@
   },
   "main": "index.js",
   "lint-staged": {
-    "*.{js,json,css,md}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,json,md}": ["prettier --write", "git add"]
   },
   "scripts": {
     "start": "node index.js",
     "precommit": "lint-staged",
-    "prettier:format": "prettier '**/*.{js,ts,md}' --write",
-    "xo": "xo"
-  },
-  "xo": {
-    "space": true,
-    "bracketSpacing": true,
-    "rules": {
-      "space-in-brackets": 0,
-      "operator-linebreak": 0
-    }
+    "lint": "prettier '**/*.{js,ts,md}' --write"
   },
   "bin": {
     "instagram-profilecrawl": "index.js"
@@ -58,12 +47,12 @@
     "got": "^8.3.0",
     "meow": "^4.0.0",
     "ora": "^2.0.0",
+    "selenium-standalone": "^6.13.0",
     "wdio": "^1.0.3"
   },
   "devDependencies": {
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
-    "prettier": "1.11.1",
-    "xo": "^0.20.3"
+    "prettier": "1.11.1"
   }
 }

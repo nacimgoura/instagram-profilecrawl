@@ -6,36 +6,57 @@ const utils = require('./utils');
 
 const spinnerCrawl = ora('Init crawl!');
 const options = {
-  desiredCapabilities: {
+  deprecationWarnings: false,
+  capabilities: {
     browserName: 'chrome',
     chromeOptions: {
       args: [
         '--headless',
         '--disable-gpu',
-        '--window-size=1280,800',
-        '--dns-prefetch-disable'
-      ]
-    }
-  }
+        '--dns-prefetch-disable',
+        '--window-size=1920,1080',
+      ],
+    },
+  },
 };
-const browser = wdio.getBrowser(options);
+const browser = wdio.getBrowser();
 let listProfileName = [];
 
 /**
  * Init selenium with chrome on headless mode
  */
 module.exports = {
-  start(listName) {
+  start(listName, data) {
     spinnerCrawl.start();
     listProfileName = listName;
-    selenium.start(err => {
-      if (err) {
-        spinnerCrawl.fail(chalk.red('Unable to start selenium server!'));
-        process.exit();
+    selenium.install(
+      {
+        version: '3.0.1',
+        baseURL: 'https://selenium-release.storage.googleapis.com',
+        drivers: {
+          chrome: {
+            version: '2.15',
+            arch: process.arch,
+            baseURL: 'https://chromedriver.storage.googleapis.com',
+          },
+        },
+      },
+      err => {
+        if (err) {
+          console.log(err);
+          spinnerCrawl.fail(chalk.red('Unable to install selenium server!'));
+          process.exit();
+        }
+        selenium.start(err => {
+          if (err) {
+            spinnerCrawl.fail(chalk.red('Unable to start selenium server!'));
+            process.exit();
+          }
+          return initBrowser();
+        });
       }
-      return initBrowser();
-    });
-  }
+    );
+  },
 };
 
 /**
@@ -96,7 +117,7 @@ function loadProfile() {
       getValue('ul._h9luf li:nth-child(3) ._fd86t')
     ),
     private: browser.isVisible('h2._kcrwx'),
-    posts: []
+    posts: [],
   };
 
   // If profile is private, posts is empty so create file now
@@ -105,6 +126,7 @@ function loadProfile() {
   }
 
   // If button 'Load more' exist, click on
+  console.log(browser.isExisting('a._1cr2e'));
   if (browser.isExisting('a._1cr2e')) {
     browser.pause(400);
     browser.click('a._1cr2e');
@@ -163,7 +185,7 @@ function extractUrlPostProfile() {
         `${item} span.coreSpriteSidecarIconLarge`
       ),
       tags: [],
-      mentions: []
+      mentions: [],
     };
 
     const description = getValue(`${item} img`, 'alt');

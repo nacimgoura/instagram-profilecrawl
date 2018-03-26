@@ -22,13 +22,13 @@ const cli = meow(
     flags: {
       method: {
         type: 'string',
-        alias: 'm'
+        alias: 'm',
       },
       output: {
         type: 'string',
-        alias: 'o'
-      }
-    }
+        alias: 'o',
+      },
+    },
   }
 );
 

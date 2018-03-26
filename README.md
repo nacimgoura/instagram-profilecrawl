@@ -34,12 +34,7 @@ please let me an issue.**
 
 ### WARNING
 
-Selenium is now an optional dependency. If you want to use the script in that mode (instead of API mode), you have to run the following commands first:
-
-```text
-npm install selenium-standalone@latest -g
-selenium-standalone install
-```
+Currently, crawl doesn't work for public profiles. I'll correct that when I have time.
 
 ## Install
 
@@ -61,8 +56,8 @@ Usage
 	  $ instagram-profilecrawl <input>
 
 	Options
-	  --method, -m define method (default api)
-	  --output, -o define output file (default profile_<input>.json)
+	  --method, -m define method (selenium, api)
+	  --output, -o define output file (by default profile_<input>.json)
 
 	Examples
 	  $ instagram-profilecrawl nacimgoura --method=selenium
