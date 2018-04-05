@@ -42,7 +42,7 @@ module.exports = {
       numberFollowing: user.edge_follow.count,
       private: user.is_private,
       isOfficial: user.is_verified,
-      posts: []
+      posts: [],
     };
 
     let hasNextPage = user.edge_owner_to_timeline_media.page_info.has_next_page;
@@ -60,7 +60,7 @@ module.exports = {
             const { user } = request.body.data;
             spinnerApi.text = `crawl posts with API : ${
               self.parsedData.posts.length
-              }/${self.parsedData.numberPosts}`;
+            }/${self.parsedData.numberPosts}`;
             hasNextPage =
               user.edge_owner_to_timeline_media.page_info.has_next_page;
             idNextPage = user.edge_owner_to_timeline_media.page_info.end_cursor;
@@ -103,7 +103,7 @@ module.exports = {
         description: post.edge_media_to_caption.edges.length
           ? post.edge_media_to_caption.edges[0].node.text
           : [],
-        date: new Date(parseInt(post.taken_at_timestamp) * 1000)
+        date: new Date(parseInt(post.taken_at_timestamp) * 1000),
       });
     });
     next(this);
@@ -123,5 +123,5 @@ module.exports = {
         )
       )
       .catch(err => spinnerApi.fail(chalk.red(`Error : ${err.message}`)));
-  }
+  },
 };

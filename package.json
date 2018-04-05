@@ -23,7 +23,7 @@
   "scripts": {
     "start": "node index.js",
     "precommit": "lint-staged",
-    "lint": "prettier '**/*.{js,ts,md}' --write"
+    "lint": "prettier '**/*.{js,json,md}' --write"
   },
   "bin": {
     "instagram-profilecrawl": "index.js"
@@ -54,5 +54,9 @@
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
     "prettier": "1.11.1"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5"
   }
 }
