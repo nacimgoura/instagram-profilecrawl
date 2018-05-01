@@ -1,13 +1,13 @@
 language: node_js
 node_js:
-  - "6"
-  - "7"
   - "8"
   - "9"
-before_install:
-  - sudo apt-get update && sudo apt-get install oracle-java8-installer
-  - npm install -g instagram-profilecrawl
+  - "10"
+
+cache:
+  directories:
+    - "node_modules"
+
 script:
-  - instagram-profilecrawl --method=api --output=nacimgoura_api.json
-  - sleep 10
-  - instagram-profilecrawl --method=selenium --output=nacimgoura_selenium.json
+  - npm install
+  - node index.js nacimgoura

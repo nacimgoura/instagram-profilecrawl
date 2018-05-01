@@ -1,80 +1,48 @@
-# Instagram-Profilecrawl
+# instagram-profilecrawl
+
+<h1 align="center">
+	<img width="360" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Instagram_font_awesome.svg/2000px-Instagram_font_awesome.svg.png" alt="fkill">
+</h1>
 
 [![NPM version](https://img.shields.io/npm/v/instagram-profilecrawl.svg)](https://www.npmjs.com/package/instagram-profilecrawl)
 [![Build Status](https://travis-ci.org/nacimgoura/instagram-profilecrawl.svg?branch=master)](https://travis-ci.org/nacimgoura/instagram-profilecrawl)
 [![built with NodeJS](https://img.shields.io/badge/Built%20with-nodejs-green.svg)](https://www.nodejs.org/)
-[![built with Selenium](https://img.shields.io/badge/built%20with-Selenium-red.svg)](https://github.com/SeleniumHQ/selenium)
+[![built with Selenium](https://img.shields.io/badge/built%20with-puppeteer-green.svg)](https://github.com/GoogleChrome/puppeteer)
 [![dependances](https://david-dm.org/nacimgoura/instagram-profilecrawl.svg)](https://david-dm.org/nacimgoura/instagram-profilecrawl)
 
-## WARNING
-
-Tool is currently down.
-
-## Quickly crawl the information (e.g. followers, tags, mentions, date, etc...) of an instagram profile. No login required
-
-![logo]("http://diylogodesigns.com/blog/wp-content/uploads/2016/05/instagram-Logo-PNG-Transparent-Background-download.png")
-Automation Script for crawling information from multiple instagram profile,
-like the number of posts, followers, tags and mentions of the posts.
-Inspired by [this project](https://github.com/timgrossmann/instagram-profilecrawl) but made in nodeJS and more complete.
-
-Two way to crawl profile data in Instagram :
-
-* use Instagram API (the faster)
-* use Selenium with chromedriver (more complete but slower)
-
-**If you've encountered a problem and you need some help,
-please let me an issue.**
-
-## Functionality
-
-* crawl the number of followers, followings and posts
-* It's possible to crawl multiple accounts
-* crawl each post with number of likes and comments
-* crawl date, localization, description, tags and mention
-* crawl image and video
-* work with instagram in different language (english, french, german...)
-* Headless mode
+> Quickly crawl the information (e.g. followers, tags, mentions, date, etc...) of an instagram profile. No login required!
 
 ## Install
 
-```node
-npm install -g instagram-profilecrawl
+```bash
+npm install instagram-profilecrawl -g
 ```
 
-If you encounter an error on windows, do :
-
-```node
-npm install -g windows-build-tools
-npm install -g instagram-profilecrawl
-```
+This module needs Node.js 7.6 or later.
 
 ## Usage
 
-```node
-Usage
-    $ instagram-profilecrawl <input>
+```bash
+$ instagram-profilecrawl --help
 
-    Options
-      --method, -m define method (selenium, api)
-      --output, -o define output file (by default profile_<input>.json)
+  Usage
+    $ instagram-profilecrawl <name>
 
-    Examples
-      $ instagram-profilecrawl nacimgoura --method=selenium
+  Options
+    --output -o   define output format (JSON, YAML)
+    --limit -l    get only the number of post defined by the limit
+
+  Examples
+    $ instagram-profilecrawl nacimgoura
+    $ instagram-profilecrawl nacimgoura -o yaml
 ```
 
 ## Example
 
 You can find complete examples in the example folder.
 
-![example](img/example.png)
-
-## Contributor
-
-* [thosuperman](https://github.com/thosuperman)
-* [eek](https://github.com/eek)
-* [marcospgp](https://github.com/marcospgp)
-* [alejandronanez](https://github.com/alejandronanez)
+![example](example/example.png)
 
 ## License
 
-MIT © [Nacim Goura](http://nacimgoura.fr)
+MIT © [Nacim Goura](https://nacimgoura.github.io)

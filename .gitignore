@@ -1,5 +1,8 @@
-.idea/
-node_modules/
-./profile*
-.vscode/
+node_modules
+.vscode
+.idea
+$.yml
+!.travis.yml
+*.json
+!element.json
 .DS_STORE
