@@ -29,8 +29,9 @@ $ instagram-profilecrawl --help
     $ instagram-profilecrawl <name>
 
   Options
-    --output -o   define output format (JSON, YAML)
-    --limit -l    get only the number of post defined by the limit
+    --output -o          define output format (JSON, YAML)
+    --limit -l           get only the number of post defined by the limit
+    --interactive -i     disable headless mode
 
   Examples
     $ instagram-profilecrawl nacimgoura

@@ -17,8 +17,9 @@ const cli = meow(
     	$ instagram-profilecrawl <name>
 
 	Options
-		--output -o   define output format (JSON, YAML)
-		--limit -l	  get only the number of post defined by the limit
+		--output -o           define output format (JSON, YAML)
+		--limit -l	  	      get only the number of post defined by the limit
+		--interactive -i	  no headless mode
 
 	Examples
 		$ instagram-profilecrawl nacimgoura
@@ -34,6 +35,10 @@ const cli = meow(
 			limit: {
 				type: 'string',
 				alias: 'l'
+			},
+			interactive: {
+				type: 'boolean',
+				alias: 'i'
 			}
 		}
 	}
@@ -45,15 +50,17 @@ const CrawlerInstagram = class {
 	}
 
 	async start({ input, flags }) {
-		// Init browser
-		this.browser = await puppeteer.launch({
-			headless: false,
-			args: ['--lang=en-US', '--disk-cache-size=0'],
-			slowMo: 250
-		});
+		// Variable
 		this.input = input[0];
 		this.output = flags && flags.output ? flags.output : null;
 		this.limit = flags && flags.limit ? flags.limit : null;
+		this.interactive = flags && flags.interactive ? flags.interactive : false;
+
+		// Init browser
+		this.browser = await puppeteer.launch({
+			headless: !this.interactive,
+			args: ['--lang=en-US', '--disk-cache-size=0']
+		});
 
 		// Go to profile page in english
 		this.page = await this.browser.newPage();

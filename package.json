@@ -1,8 +1,7 @@
 {
   "name": "instagram-profilecrawl",
-  "version": "2.0.0",
-  "description":
-    "Quickly crawl the information (e.g. followers, tags, etc...) of an instagram profile. No login required!",
+  "version": "2.0.1",
+  "description": "Quickly crawl the information (e.g. followers, tags, etc...) of an instagram profile. No login required!",
   "license": "MIT",
   "author": {
     "name": "Nacim Goura",
@@ -50,7 +49,10 @@
   },
   "xo": {
     "prettier": true,
-    "env": ["node", "browser"],
+    "env": [
+      "node",
+      "browser"
+    ],
     "rules": {
       "no-await-in-loop": "off",
       "no-implicit-coercion": "off",
