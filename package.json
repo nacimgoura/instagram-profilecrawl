@@ -1,6 +1,6 @@
 {
   "name": "instagram-profilecrawl",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Quickly crawl the information (e.g. followers, tags, etc...) of an instagram profile. No login required!",
   "license": "MIT",
   "author": {
@@ -45,7 +45,7 @@
   "devDependencies": {
     "ava": "^0.25.0",
     "execa": "^0.10.0",
-    "xo": "^0.20.3"
+    "xo": "^0.22.0"
   },
   "xo": {
     "prettier": true,
